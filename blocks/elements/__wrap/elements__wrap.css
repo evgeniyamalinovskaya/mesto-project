@@ -1,0 +1,10 @@
+.elements__wrap {
+    outline: 1px solid red;
+    background: #FFFFFF;
+    margin: 0;
+    padding: 25px 15px 31px 21px;
+    max-width: 246px;
+    display: flex;
+    align-content: space-around;
+    justify-content: space-between;
+}

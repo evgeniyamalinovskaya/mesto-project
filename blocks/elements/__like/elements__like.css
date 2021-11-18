@@ -1,0 +1,16 @@
+.elements__like {
+    outline: 1px solid red;
+    color: #000000;
+    margin: 0;
+    padding: 6px 7.24px 1.13px 0;
+    width: 20.76px;
+    height: 18.13px;
+    background-image: url(/images/like.svg);
+    background-repeat: no-repeat;
+    cursor: pointer;
+    border: none;
+}
+
+.elements__like:hover {
+    opacity: 0.7;
+}

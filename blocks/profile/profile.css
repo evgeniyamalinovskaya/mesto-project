@@ -1,0 +1,155 @@
+.profile {
+    outline: 1px solid red;
+    margin: 0 auto;
+    padding: 0 0 51px 0;
+    max-width: 882px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+}
+
+@media screen and (max-width: 1023px) {
+    .profile {
+        max-width: 620px;
+        padding: 0 0 40px 0;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .profile {
+        flex-direction: column;
+        padding: 0 0 36px 0;
+    }
+}
+
+.profile__avatar {
+    outline: 1px solid red;
+    margin: 0 ;
+    padding: 3.75px 26.25px 0 0;
+}
+
+@media screen and (max-width: 767px) {
+    .profile__avatar {
+        padding: 0 0 14px 0;
+    }
+}
+
+.profile__avatar-image {
+    outline: 1px solid red;
+    padding: 0;
+    object-fit: cover;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+}
+
+.profile__info {
+    outline: 1px solid red;
+    margin: 0;
+    padding: 0;
+    max-width: 336px;
+}
+
+@media screen and (max-width: 767px) {
+    .profile__info {
+        max-width: 280px;
+    }
+}
+
+.profile__container {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+
+}
+
+
+.profile__title {
+    outline: 1px solid red;
+    margin: 0;
+    padding: 0 0 0 0;
+    max-width: 295px;
+    font-weight: 500;
+    font-size: 42px;
+    line-height: 56px;
+    color: #FFFFFF;
+
+}
+@media screen and (max-width: 767px) {
+    .profile__title {
+        font-size: 27px;
+    }
+}
+
+.profile__subtitle {
+    outline: 1px solid red;
+    margin: 0;
+    padding: 0;
+    max-width: 318px;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+    color: #FFFFFF;
+
+}
+
+@media screen and (max-width: 767px) {
+    .profile__subtitle {
+        padding: 0 20px 0 20px;
+        font-size: 14px;
+        line-height: 17px;
+        text-align: center;
+    }
+}
+
+.profile__edit-button {
+    outline: 1px solid #FFFFFF;
+    margin: 0 0 0 18px;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    background-image: url(/images/pencil.svg);
+    background-repeat: no-repeat;
+    background-size: 10px;
+    background-position: 50%;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    transition: 0.3s, ease-in-out;
+}
+
+.profile__edit-button:hover {
+    opacity: 0.7;
+}
+
+
+.profile__add-button {
+    outline: 1px solid #FFFFFF;;
+    margin: 0;
+    padding: 0;
+    width: 150px;
+    height: 50px;
+    background-image: url(/images/plus-add.svg);
+    background-repeat: no-repeat;
+    background-size: 22px;
+    background-position: 50%;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    transition: 0.3s, ease-in-out;
+    position: absolute;
+    top: 35px;
+    right: 0;
+}
+.profile__add-button:hover {
+    opacity: 0.7;
+}
+
+@media screen and (max-width: 767px) {
+    .profile__add-button {
+        position: relative;
+
+    }
+}

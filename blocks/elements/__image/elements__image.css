@@ -1,0 +1,5 @@
+.elements__image {
+    outline: 1px solid red;
+    object-fit: cover;
+    width: 100%;
+}

@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Место</title>
     <link rel="stylesheet" href="pages/index.css">
@@ -15,20 +16,19 @@
 
     <main>
         <section class="profile">
-            <div class="profile__avatar">
-                <img class="profile__avatar-image" src="images/profile-image.jpg" alt="фото">
-            </div>
-            <div class="profile__info">
-                <div class="profile__container">
-                    <h1 class="profile__title">Жак-Ив Кусто</h1>
-                    <button class="profile__edit-button"></button>
+            <div class="profile__block">
+                <div class="profile__avatar">
+                    <img class="profile__avatar-image" src="images/profile-image.jpg" alt="фото">
                 </div>
-
-                <h2 class="profile__subtitle">Исследователь океана</h2>
+                <div class="profile__info">
+                    <div class="profile__container">
+                        <h1 class="profile__title">Жак-Ив Кусто</h1>
+                        <button type="button" class="profile__edit-button"></button>
+                        <h2 class="profile__subtitle">Исследователь океана</h2>
+                    </div>
+                </div>
             </div>
-            <button type=button class="profile__add-button"></button>
-
-
+            <button type="button" class="profile__add-button"></button>
         </section>
 
         <section class="elements">
@@ -38,7 +38,9 @@
                     <img class="elements__image" src="images/karachevsk.jpg" alt="Карачевск">
                     <div class="elements__wrap">
                         <h2 class="elements__title">Карачевск</h2>
-                        <button class="elements__like"></button>
+                        <button type="button" class="elements__like">
+                            <img src="images/like.svg" alt="Лайк">
+                        </button>
                     </div>
                 </li>
 
@@ -46,7 +48,9 @@
                     <img class="elements__image" src="images/elbrus.jpg" alt="гора Эльбрус">
                     <div class="elements__wrap">
                         <h2 class="elements__title">Гора Эльбрус</h2>
-                        <button class="elements__like"></button>
+                        <button type="button" class="elements__like">
+                            <img src="images/like.svg" alt="Лайк">
+                        </button>
                     </div>
                 </li>
 
@@ -54,7 +58,9 @@
                     <img class="elements__image" src="images/dombai.jpg" alt="Домбай">
                     <div class="elements__wrap">
                         <h2 class="elements__title">Домбай</h2>
-                        <button class="elements__like"></button>
+                        <button type="button" class="elements__like">
+                            <img src="images/like.svg" alt="Лайк">
+                        </button>
                     </div>
                 </li>
 
@@ -62,7 +68,9 @@
                     <img class="elements__image" src="images/elbrus.jpg" alt="гора Эльбрус">
                     <div class="elements__wrap">
                         <h2 class="elements__title">Гора Эльбрус</h2>
-                        <button class="elements__like"></button>
+                        <button type="button" class="elements__like">
+                            <img src="images/like.svg" alt="Лайк">
+                        </button>
                     </div>
                 </li>
 
@@ -70,7 +78,9 @@
                     <img class="elements__image" src="images/dombai.jpg" alt="Домбай">
                     <div class="elements__wrap">
                         <h2 class="elements__title">Домбай</h2>
-                        <button class="elements__like"></button>
+                        <button type="button" class="elements__like">
+                            <img src="images/like.svg" alt="Лайк">
+                        </button>
                     </div>
                 </li>
 
@@ -78,17 +88,37 @@
                     <img class="elements__image" src="images/karachevsk.jpg" alt="Карачевск">
                     <div class="elements__wrap">
                         <h2 class="elements__title">Карачаево-Ч...</h2>
-                        <button class="elements__like"></button>
+                        <button type="button" class="elements__like">
+                            <img src="images/like.svg" alt="Лайк">
+                        </button>
                     </div>
                 </li>
             </ul>
         </section>
     </main>
 
-
     <footer class="footer">
         <p class="footer__copyleft">©2020 Mesto Russia</p>
     </footer>
+
+    <div class="popup">
+        <div class="popup__container">
+            <button class="popup__close-button" type="button" aria-label="Выйти"></button>
+            <div class="popup__form">
+                <h2 class="popup__title">Редактировать профиль</h2>
+                <form name="form-info">
+                    <fieldset class="popup__item-container">
+                        <input class="popup__item" type="text" name="username" id="username" placeholder="Жак-Ив Кусто"
+                               required="required">
+                        <input class="popup__item" type="text" name="about" id="about"
+                               placeholder="Исследователь океана" required="required">
+                    </fieldset>
+                    <button class="popup__submit" type="submit">Сохранить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </div>
 </body>
 </html>

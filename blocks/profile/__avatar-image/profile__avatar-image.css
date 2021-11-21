@@ -1,0 +1,8 @@
+.profile__avatar-image {
+    outline: 1px solid red;
+    padding: 0;
+    object-fit: cover;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+}

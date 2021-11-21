@@ -1,0 +1,13 @@
+.profile__block {
+    outline: 1px solid red;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+@media screen and (max-width: 767px) {
+    .profile__block {
+        padding: 0;
+        flex-direction: column;
+    }
+}

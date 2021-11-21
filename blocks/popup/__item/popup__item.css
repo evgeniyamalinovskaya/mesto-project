@@ -1,0 +1,22 @@
+.popup__item {
+    margin-top: 30px;
+    padding: 0 0 13px 0;
+    width: 358px;
+    border: none;
+    box-sizing: border-box;
+    border-bottom: 1px solid rgba(0,0,0,.2);
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+}
+
+.popup__item:first-child {
+    margin-top: 0;
+}
+
+@media (max-width: 767px) {
+    .popup__item {
+        width: 190px;
+    }
+}

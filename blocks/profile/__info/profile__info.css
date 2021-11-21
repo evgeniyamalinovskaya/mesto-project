@@ -1,7 +1,6 @@
-.elements__card {
+.profile__info {
     outline: 1px solid red;
     margin: 0;
     padding: 0;
-    max-width: 282px;
-
+    display: flex;
 }

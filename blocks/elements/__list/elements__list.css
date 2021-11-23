@@ -1,5 +1,4 @@
 .elements__list {
-    outline: 1px solid red;
     margin: 0 auto;
     padding: 0 0 66px 0;
     max-width: 882px;
@@ -11,6 +10,7 @@
     align-content: space-around;
     justify-content: space-between;
     list-style-type: none;
+    justify-items:center;
 }
 
 @media screen and (max-width: 1023px) {

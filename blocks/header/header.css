@@ -1,23 +1,21 @@
 .header {
-    padding: 45px 0 40px 0;
+    padding-top: 45px;
+    padding-bottom: 40px;
     margin: 0 auto;
-    max-width: 882px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    max-width: 880px;
+    border-bottom: 1px solid #545454;
 }
 
 @media (max-width: 1023px) {
     .header {
         max-width: 620px;
-        padding: 28px 1px 42px 3px;
     }
 }
 
 @media (max-width: 767px) {
     .header {
         max-width: 324px;
-        padding: 28px 1px 42px 3px;
+        padding: 28px 0 42px 0;
     }
 }
 

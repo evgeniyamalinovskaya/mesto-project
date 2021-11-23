@@ -1,8 +1,7 @@
 .popup__submit {
     margin: 48px 36px 36px 36px;
-    padding: 0;
+    padding: 14px 124px 18px 125px;
     width: 358px;
-    height: 50px;
     color: #fff;
     background: #000000;
     border-radius: 2px;
@@ -17,6 +16,8 @@
 
 @media (max-width: 767px) {
     .popup__submit {
-        max-width: 190px;
+        margin: 45px 22px 25px 22px;
+        padding: 14px 82px 14px 82px;
+        max-width: 238px;
     }
 }

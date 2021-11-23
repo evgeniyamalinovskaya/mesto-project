@@ -1,6 +1,6 @@
 .profile__edit-button {
     outline: 1px solid #FFFFFF;
-    margin: 19px 0 0 18px;
+    margin: 37px 0 0 18px;
     padding: 0;
     width: 24px;
     height: 24px;
@@ -20,10 +20,10 @@
 
 @media screen and (max-width: 767px) {
     .profile__edit-button {
+        margin: 34px 0 0 10px;
         outline: 1px solid #FFFFFF;
         background-size: 7.5px;
         width: 18px;
         height: 18px;
-        margin: 8px 19px 28px 10px;
     }
 }

@@ -2,12 +2,13 @@
     max-width: 430px;
     background: #FFFFFF;
     border-radius: 10px;
-    position: absolute;
+    box-shadow: 0 0 25px rgb(0 0 0 / 15%);
+    position: fixed;
     width: 100%;
 }
 
 @media (max-width: 767px) {
     .popup__container {
-        max-width: 262px;
+        max-width: 282px;
     }
 }

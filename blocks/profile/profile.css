@@ -1,24 +1,26 @@
 .profile {
     margin: 0 auto;
     padding: 40px 0 51px 0;
-    max-width: 882px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    max-width: 880px;
+    display: grid;
+    grid-template-columns: 120px 336px auto;
+    gap: 30px;
+    box-sizing: border-box;
+    justify-items: center;
 }
 
 @media screen and (max-width: 1023px) {
     .profile {
         max-width: 620px;
-        padding: 40px 0 40px 0;
+        gap: 0;
     }
 }
 
 @media screen and (max-width: 767px) {
     .profile {
-        margin: 0;
-        flex-direction: column;
-        padding-top: 42px;
+        max-width: 282px;
+        padding: 42px 0 36px 0;
+        grid-template-columns: repeat(auto-fit, minmax(282px, 1fr));
     }
 }
 

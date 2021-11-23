@@ -10,13 +10,18 @@
     line-height: 17px;
     color: #000000;
 }
+.popup__item:focus {
+    background-color: aquamarine;
+}
 
 .popup__item:first-child {
     margin-top: 0;
 }
 
+
+
 @media (max-width: 767px) {
     .popup__item {
-        width: 190px;
+        width: 238px;
     }
 }

@@ -1,5 +1,7 @@
 .elements__card {
-    margin: 0;
-    padding: 0;
     max-width: 282px;
+    width: 100%;
+    overflow: hidden;
+    background-color: #fff;
+    border-radius: 10px;
 }

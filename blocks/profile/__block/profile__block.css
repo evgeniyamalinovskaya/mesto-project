@@ -1,5 +1,4 @@
 .profile__block {
-    outline: 1px solid red;
     display: flex;
     justify-content: flex-start;
     align-items: center;

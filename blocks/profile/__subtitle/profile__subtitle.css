@@ -1,19 +1,16 @@
 .profile__subtitle {
-    outline: 1px solid red;
     margin: 0;
-    padding: 16px 0 0 0;
+    padding-bottom: 0;
     max-width: 318px;
     font-weight: normal;
     font-size: 18px;
     line-height: 22px;
     color: #FFFFFF;
-    display: flex;
-    align-content: flex-end;
 }
 
 @media screen and (max-width: 767px) {
     .profile__subtitle {
-        padding: 0 20px 0 20px;
+        padding-bottom: 36px;
         font-size: 14px;
         line-height: 17px;
         text-align: center;

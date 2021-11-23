@@ -5,12 +5,12 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, auto);
-    grid-column-gap: 18px;
-    grid-row-gap: 21px;
+    grid-column-gap: 17px;
+    grid-row-gap: 20px;
     align-content: space-around;
     justify-content: space-between;
     list-style-type: none;
-    justify-items:center;
+    justify-items: center;
 }
 
 @media screen and (max-width: 1023px) {

@@ -27,7 +27,6 @@ function editProfile() {
     // 5. Открываем popup
     showPopup(popup);
 
-
     function formSubmitHandler(evt) {
         evt.preventDefault();
 
@@ -47,3 +46,11 @@ function showPopup(obj) {
 function hidePopup(obj) {
     obj.classList.remove('popup_opened');
 }
+
+//Лайк карточки
+const elementsLike = document.querySelectorAll('.elements__like');
+elementsLike.forEach(function (elementLike) {
+    elementLike.addEventListener('click', function (evt) {
+        evt.target.classList.toggle('elements__like_active');
+    });
+});

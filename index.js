@@ -54,3 +54,11 @@ elementsLike.forEach(function (elementLike) {
         evt.target.classList.toggle('elements__like_active');
     });
 });
+
+//Удаление карточки
+const elementsRemoveButton = document.querySelectorAll('.elements__remove-button');
+elementsRemoveButton.forEach(function (elementRemoveButton) {
+    elementRemoveButton.addEventListener('click', function (evt) {
+        evt.target.parentElement.remove();
+    });
+});

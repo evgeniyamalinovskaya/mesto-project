@@ -28,59 +28,18 @@
 
         <section class="elements">
             <ul class="elements__list">
-                <li class="elements__card">
-                    <img class="elements__image" src="images/karachevsk.jpg" alt="Замок в горах">
-                    <div class="elements__wrap">
-                        <h2 class="elements__title">Карачаевск</h2>
-                        <button type="button" class="elements__like"></button>
-                    </div>
-                    <button type="button" class="elements__remove-button"></button>
-                </li>
 
-                <li class="elements__card">
-                    <img class="elements__image" src="images/elbrus.jpg" alt="Холмы пустыни">
-                    <div class="elements__wrap">
-                        <h2 class="elements__title">Гора Эльбрус</h2>
-                        <button type="button" class="elements__like"></button>
-                    </div>
-                    <button type="button" class="elements__remove-button"></button>
-                </li>
+                <template id="card">
+                    <li class="elements__card">
+                        <img class="elements__image" src="images/karachevsk.jpg" alt="Замок в горах">
+                        <div class="elements__wrap">
+                            <h2 class="elements__title">Карачаевск</h2>
+                            <button type="button" class="elements__like"></button>
+                        </div>
+                        <button type="button" class="elements__remove-button"></button>
+                    </li>
+                </template>
 
-                <li class="elements__card">
-                    <img class="elements__image" src="images/dombai.jpg" alt="Величественные горы">
-                    <div class="elements__wrap">
-                        <h2 class="elements__title">Домбай</h2>
-                        <button type="button" class="elements__like"></button>
-                    </div>
-                    <button type="button" class="elements__remove-button"></button>
-                </li>
-
-                <li class="elements__card">
-                    <img class="elements__image" src="images/elbrus.jpg" alt="Холмы пустыни">
-                    <div class="elements__wrap">
-                        <h2 class="elements__title">Гора Эльбрус</h2>
-                        <button type="button" class="elements__like"></button>
-                    </div>
-                    <button type="button" class="elements__remove-button"></button>
-                </li>
-
-                <li class="elements__card">
-                    <img class="elements__image" src="images/dombai.jpg" alt="Величественные горы">
-                    <div class="elements__wrap">
-                        <h2 class="elements__title">Домбай</h2>
-                        <button type="button" class="elements__like"></button>
-                    </div>
-                    <button type="button" class="elements__remove-button"></button>
-                </li>
-
-                <li class="elements__card">
-                    <img class="elements__image" src="images/karachevsk.jpg" alt="Замок в горах">
-                    <div class="elements__wrap">
-                        <h2 class="elements__title">Карачаево-Ч...</h2>
-                        <button type="button" class="elements__like"></button>
-                    </div>
-                    <button type="button" class="elements__remove-button"></button>
-                </li>
             </ul>
         </section>
     </main>
@@ -89,7 +48,7 @@
         <p class="footer__copyleft">©2021 Mesto Russia</p>
     </footer>
 
-    <div class="popup">
+    <div class="popup" id="popup-edit-profile">
         <div class="popup__container">
             <button class="popup__close-button" type="button" aria-label="Выйти"></button>
             <div class="popup__form">
@@ -106,6 +65,26 @@
             </div>
         </div>
     </div>
+
+    <div class="popup" id="popup-add-card">
+        <div class="popup__container">
+            <button class="popup__close-button" type="button" aria-label="Выйти"></button>
+            <div class="popup__form">
+                <h2 class="popup__title">Новое место</h2>
+                <form name="form-card">
+                    <fieldset class="popup__item-container">
+                        <input class="popup__item" type="text" name="name" id="name"
+                               placeholder="Название" required="required" value="">
+                        <input class="popup__item" type="text" name="link" id="link"
+                               placeholder="Ссылка на картинку" required="required"
+                               value="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg">
+                    </fieldset>
+                    <button class="popup__submit" type="submit" id="add-card-submit">Сохранить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
 </div>
 <script src="index.js" type="application/javascript"></script>

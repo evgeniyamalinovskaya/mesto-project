@@ -29,7 +29,7 @@
         <section class="elements">
             <ul class="elements__list">
 
-                <template id="card">
+                <template id="card-template">
                     <li class="elements__card">
                         <img class="elements__image" src="images/karachevsk.jpg" alt="Замок в горах">
                         <div class="elements__wrap">
@@ -39,6 +39,15 @@
                         <button type="button" class="elements__remove-button"></button>
                     </li>
                 </template>
+
+                <li class="elements__card">
+                    <img class="elements__image" src="images/karachevsk.jpg" alt="Замок в горах">
+                    <div class="elements__wrap">
+                        <h2 class="elements__title">Карачаевск</h2>
+                        <button type="button" class="elements__like"></button>
+                    </div>
+                    <button type="button" class="elements__remove-button"></button>
+                </li>
 
             </ul>
         </section>
@@ -77,14 +86,13 @@
                                placeholder="Название" required="required" value="">
                         <input class="popup__item" type="text" name="link" id="link"
                                placeholder="Ссылка на картинку" required="required"
-                               value="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg">
+                               value="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg">
                     </fieldset>
                     <button class="popup__submit" type="submit" id="add-card-submit">Сохранить</button>
                 </form>
             </div>
         </div>
     </div>
-
 
 </div>
 <script src="index.js" type="application/javascript"></script>

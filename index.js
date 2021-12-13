@@ -1,3 +1,4 @@
+
 const initialCards = [
     {
         name: 'Архыз',
@@ -24,23 +25,31 @@ const initialCards = [
         link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
     }
 ];
+
 const cardTemplate = document.querySelector('#card-template').content;
 const cardContainer = document.querySelector('.elements__list');
-
-// Добавить стандартные карточки
-initialCards.forEach( function (card) {
-    console.log(card.name)
-    console.log(card.link)
-    addCard(card.name, card.link);
-})
 
 // Редактирование профиля
 const editProfilePopup = document.getElementById('popup-edit-profile');
 const profileEditButton = document.querySelector('.profile__edit-button');
 const profileCloseButton = editProfilePopup.querySelector('.popup__close-button');
 
-// 3. Находим форму в DOM
+const addCardPopup = document.getElementById('popup-add-card');
+const showAddCardPopup = document.querySelector('.profile__add-button');
+const cardCloseButton = addCardPopup.querySelector('.popup__close-button');
+
+// Находим форму в DOM редактирования профиля
 const formElement = document.querySelector('form[name="form-info"]');
+
+// 1. Находим форму в DOM добавления карточки
+const formCard = document.querySelector('form[name="form-card"]');
+
+// Добавить стандартные карточки
+initialCards.forEach( function (card) {
+    console.log(card.name);
+    console.log(card.link);
+    addCard(card.name, card.link);
+})
 
 profileEditButton.addEventListener('click', editProfile);
 profileCloseButton.addEventListener('click', () => toggleEditProfilePopup(editProfilePopup));
@@ -66,11 +75,11 @@ function editProfile() {
     function formProfileSave(evt) {
         evt.preventDefault();
 
-        // 6.Вставляем новые значения
+        // 5.Вставляем новые значения
         profileTitle.textContent = nameInput.value;
         profileJob.textContent = jobInput.value;
 
-        // 7. Закрываем popup
+        // 6. Закрываем popup
         toggleEditProfilePopup(editProfilePopup);
     }
 }
@@ -80,20 +89,13 @@ function toggleEditProfilePopup(editProfilePopup) {
 }
 
 // Добавление карточки
-const addCardPopup = document.getElementById('popup-add-card');
-const showAddCardPopup = document.querySelector('.profile__add-button');
-const cardCloseButton = addCardPopup.querySelector('.popup__close-button');
-
-
 showAddCardPopup.addEventListener('click', function () {
     clearCardForm();
-    toggleCardPopup(addCardPopup)
+    toggleCardPopup(addCardPopup);
 });
 
 cardCloseButton.addEventListener('click', () => toggleCardPopup(addCardPopup));
 
-// 1. Находим форму в DOM
-const formCard = document.querySelector('form[name="form-card"]');
 formCard.addEventListener('submit', formCardAdd);
 
 // 2. Находим поля формы в DOM
@@ -110,19 +112,21 @@ function formCardAdd(evt) {
 
     // 4. Очищаем форму
     clearCardForm();
-
 }
 
+//
 function addCard(nameValue, linkValue) {
     let card = cardTemplate.querySelector('.elements__card').cloneNode(true);
 
     let cardImage = card.querySelector('.elements__image');
     let cardText = card.querySelector('.elements__title');
 
+    // Добавление лайка карточке
     card.querySelector('.elements__like').addEventListener('click', function (evt) {
         evt.target.classList.toggle('elements__like_active');
     });
 
+    //Удаление карточки
     card.querySelector('.elements__remove-button').addEventListener('click', function (evt) {
         evt.target.parentElement.remove();
     });
@@ -141,7 +145,7 @@ function toggleCardPopup(cardPopup) {
 
 function clearCardForm() {
     nameInput.value = "";
-    // linkInput.value = "";
-    // console.log(nameInput)
+    linkInput.value = "";
+    console.log(nameInput);
 }
 

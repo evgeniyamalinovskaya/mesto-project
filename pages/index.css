@@ -35,3 +35,8 @@
 @import url(../blocks/popup/__item-container/popup__item-container.css);
 @import url(../blocks/popup/__item/popup__item.css);
 @import url(../blocks/popup/__submit/popup__submit.css);
+@import url(../blocks/popup/__figure-container/popup__figure-container.css);
+@import url(../blocks/popup/__caption/popup__caption.css);
+@import url(../blocks/popup/__image/popup__image.css);
+@import url(../blocks/popup/__figure/popup__figure.css);
+@import url(../blocks/popup/_image-opened/popup_image-opened.css);

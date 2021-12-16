@@ -43,27 +43,29 @@ const jobInput = formElement.querySelector('input[name="about"]');
 const addCardPopup = document.querySelector('.popup_card');
 const showAddCardPopup = document.querySelector('.profile__add-button');
 const cardCloseButton = addCardPopup.querySelector('.popup__close-button');
-// Форму в DOM добавления карточки
+// Форма в DOM добавления карточки
 const formCard = document.querySelector('form[name="form-card"]');
+// 2. Находим поля формы в DOM
+const placeInput = formCard.querySelector('input[name="name"]');
+const linkInput = formCard.querySelector('input[name="link"]');
 
-// Увеличение картинки
+// Всплывающее окно отображающее картинку
 const imagePopup = document.querySelector('.popup_image');
 const imageCloseButton = imagePopup.querySelector('.popup__close-button');
-
 
 // Находим поля формы в DOM добавления карточки
 const cardTemplate = document.querySelector('#card-template').content;
 const cardContainer = document.querySelector('.elements__list');
 
-//  Находим поля формы в DOM увеличения карточки
+//  Находим поля формы в DOM всплывающего окна отображающего картинку
 const zoomedImagePopup = document.querySelector('.popup__image');
 const imageText = document.querySelector('.popup__caption');
 
 // Добавить стандартные карточки
-const standartCards = initialCards.map(function (card) {
+const standardCards = initialCards.map(function (card) {
     return createCard(card.name, card.link);
 });
-cardContainer.prepend(...standartCards);
+cardContainer.prepend(...standardCards);
 
 // Открытие формы, изменение данных профиля
 profileEditButton.addEventListener('click', editProfile);
@@ -105,29 +107,26 @@ function closePopup(popup) {
 
 // Добавление карточки
 showAddCardPopup.addEventListener('click', function () {
-    clearCardForm();
     openPopup(addCardPopup);
 });
 
 formCard.addEventListener('submit', saveCardForm);
 
-// 2. Находим поля формы в DOM
-let placeInput = formCard.querySelector('input[name="name"]');
-let linkInput = formCard.querySelector('input[name="link"]');
-
 // Функция сохранения карточки
 function saveCardForm(evt) {
     evt.preventDefault();
 
-    createCard(placeInput.value, linkInput.value);
+    // Сохранение данных
+    cardContainer.prepend(createCard(placeInput.value, linkInput.value));
 
-    // 3. Сохранение данных
+    // закрытие карточки
     closePopup(addCardPopup);
 
-    // 4. Очищаем форму карточки
+    // Очищаем форму карточки
     clearCardForm();
 }
-// Функция добавления карточки в поля формы
+
+// Возвращает добавленную карточку
 function createCard(placeValue, linkValue) {
     let card = cardTemplate.querySelector('.elements__card').cloneNode(true);
     let cardImage = card.querySelector('.elements__image');
@@ -135,22 +134,22 @@ function createCard(placeValue, linkValue) {
     let cardLike = card.querySelector('.elements__like');
     let cardRemove = card.querySelector('.elements__remove-button');
 
-    // Подставить данные из объекта
+    // Подставить введенные данные из формы
     cardImage.src = linkValue;
     cardImage.alt = placeValue;
     cardText.textContent = placeValue;
 
     // Добавление лайка карточке
     cardLike.addEventListener('click', function (evt) {
-    evt.target.classList.toggle('elements__like_active');
+        evt.target.classList.toggle('elements__like_active');
     });
 
-    //Удаление карточки
-    cardRemove.addEventListener('click',function (evt) {
-    evt.target.closest('.elements__card').remove();
+    // Удаление карточки
+    cardRemove.addEventListener('click', function (evt) {
+        evt.target.closest('.elements__card').remove();
     });
 
-    // Открытие Картинки на карточках
+    // При клике на карточку открыть картинку во всплывающем окне
     cardImage.addEventListener('click', zoomImagePopup);
 
     function zoomImagePopup() {
@@ -162,10 +161,11 @@ function createCard(placeValue, linkValue) {
         zoomedImagePopup.alt = placeValue;
         imageText.textContent = placeValue;
     }
+
     return card;
 }
 
-// Функция закрытия popup увеличение карточек
+// Функция закрытия popup отображения картинок
 imageCloseButton.addEventListener('click', () => closePopup(imagePopup));
 
 // Функция закрытия popup добавления карточек
@@ -175,5 +175,4 @@ cardCloseButton.addEventListener('click', () => closePopup(addCardPopup));
 function clearCardForm() {
     placeInput.value = "";
     linkInput.value = "";
-    console.log(placeInput);
 }

@@ -1,7 +1,8 @@
 .elements__image {
-    max-width: 282px;
-    width: 100%;
+    width: 282px;
     height: 282px;
     object-fit: cover;
     cursor: pointer;
+    background-color: #FFFFFF;
+    display: block;
 }

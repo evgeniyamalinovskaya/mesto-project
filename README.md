@@ -16,6 +16,11 @@
 * CSS
 * Методология BEM Nested
 * JavaScript
+* Babel
+* Модули
+* Валидация форм
+* Webpack 
+  
 
 **GitHub Pages**
 * [Demo](https://evgeniyamalinovskaya.github.io/mesto-project/)

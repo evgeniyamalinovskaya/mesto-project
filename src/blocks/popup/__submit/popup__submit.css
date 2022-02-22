@@ -1,12 +1,20 @@
 .popup__submit {
-    margin: 48px 36px 36px 36px;
+    margin: 31px 36px 36px 36px;
     padding: 14px 124px 18px 125px;
     width: 358px;
+    height: 50px;
     color: #fff;
     background: #000000;
     border-radius: 2px;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
     cursor: pointer;
     border: none;
+    display: block;
+    opacity: 1;
+    transition: opacity .3s ease-in;
 }
 
 .popup__submit:hover {
@@ -14,10 +22,17 @@
     border-radius: 2px;
 }
 
+.popup__submit:focus {
+    outline: none;
+}
+
 @media (max-width: 767px) {
     .popup__submit {
         margin: 45px 22px 25px 22px;
         padding: 14px 82px 14px 82px;
         max-width: 238px;
+        height: 46px;
+        font-size: 14px;
+        line-height: 17px;
     }
 }

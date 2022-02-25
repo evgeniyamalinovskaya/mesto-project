@@ -1,6 +1,5 @@
-import {clearCardForm} from './modal.js';
+import {hideErrorElement, hideInputElement, validationConfig} from "./validate";
 
-let activePopup = document.querySelector('.popup_opened');
 const buttonEscKey = 27;
 
 // Универсальная функция открытия всех popup
@@ -8,25 +7,23 @@ function openPopup(popup) {
     popup.classList.add('popup_opened');
     document.addEventListener('keydown', handleEscUp);
     popup.addEventListener('click', handleClickOverlay);
-    // Очищаем форму карточки
-    clearCardForm();
 }
 
 //Функция на overlay
 const handleClickOverlay = (evt) => {
-    activePopup = document.querySelector('.popup_opened');
     if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close-button')) {
-        evt.preventDefault();
+        const activePopup = document.querySelector('.popup_opened');
         closePopup(activePopup);
+        clearForm(activePopup)
     }
 };
 
 //Функция на esc
 const handleEscUp = (evt) => {
-    activePopup = document.querySelector('.popup_opened');
     if (evt.keyCode === buttonEscKey) {
-        evt.preventDefault();
+        const activePopup = document.querySelector('.popup_opened');
         closePopup(activePopup);
+        clearForm(activePopup)
     }
 };
 
@@ -34,8 +31,28 @@ const handleEscUp = (evt) => {
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
     document.removeEventListener('keydown', handleEscUp);
-    popup.removeEventListener('click',handleClickOverlay);
-    clearCardForm();
+    console.log(handleEscUp)
+    popup.removeEventListener('click', handleClickOverlay);
 }
 
-export {openPopup, closePopup};
+// Функция очистки поля в форме карточки
+function clearForm(popup) {
+    const form = popup.querySelector('form');
+      if (form) {
+        const errorTextList = form.querySelectorAll('.popup__error');
+        const errorInputList = form.querySelectorAll('.popup__item');
+
+        errorInputList.forEach(errorInputElement => {
+            hideInputElement(errorInputElement, validationConfig)
+            errorInputElement.value = "";
+
+        });
+
+        errorTextList.forEach(errorTextElement => {
+            hideErrorElement(errorTextElement, validationConfig)
+            errorTextElement.value = "";
+        });
+    }
+}
+
+export {openPopup, closePopup, clearForm};

@@ -1,4 +1,4 @@
-import {openPopup} from "./utils";
+import {openPopup, closePopup} from "./utils";
 
 // Находим поля формы в DOM добавления карточки
 const cardTemplate = document.querySelector('#card-template').content;
@@ -15,11 +15,11 @@ const imageCloseButton = imagePopup.querySelector('.popup__close-button');
 // Возвращает добавленную карточку
 
 function createCard(placeValue, linkValue) {
-    let card = cardTemplate.querySelector('.elements__card').cloneNode(true);
-    let cardImage = card.querySelector('.elements__image');
-    let cardText = card.querySelector('.elements__title');
-    let cardLike = card.querySelector('.elements__like');
-    let cardRemove = card.querySelector('.elements__remove-button');
+    const card = cardTemplate.querySelector('.elements__card').cloneNode(true);
+    const cardImage = card.querySelector('.elements__image');
+    const cardText = card.querySelector('.elements__title');
+    const cardLike = card.querySelector('.elements__like');
+    const cardRemove = card.querySelector('.elements__remove-button');
 
     // Подставить введенные данные из формы
     cardImage.src = linkValue;
@@ -51,4 +51,5 @@ function createCard(placeValue, linkValue) {
 
     return card;
 }
+
 export {createCard, cardTemplate, cardContainer, imageCloseButton, imagePopup};

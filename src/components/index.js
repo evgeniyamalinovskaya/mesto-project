@@ -1,9 +1,9 @@
 import '../pages/index.css'; // добавьте импорт главного файла стилей
 
-import { closePopup, openPopup } from './utils.js'; //функции открытия и закрытия popup
+import { openPopup } from './utils.js'; //функции открытия и закрытия popup
 import { enableValidation, validationConfig} from './validate.js';
-import { createCard, cardContainer, imageCloseButton, imagePopup} from './card.js';
-import { editProfilePopup, profileEditButton, profileCloseButton, profileTitle, profileJob, formElement, nameInput, jobInput, addCardPopup, showAddCardPopup, cardCloseButton, formCard, saveCardForm, saveProfileForm} from './modal.js';
+import { createCard, cardContainer} from './card.js';
+import { editProfilePopup, profileEditButton, profileTitle, profileJob, formElement, nameInput, jobInput, addCardPopup, showAddCardPopup, formCard, saveCardForm, saveProfileForm} from './modal.js';
 
 //Стандартные карточки
 const initialCards = [
@@ -39,7 +39,6 @@ const standardCards = initialCards.map(function (card) {
 });
 cardContainer.prepend(...standardCards);
 
-
 // Открытие формы, изменение данных профиля
 profileEditButton.addEventListener('click', editProfile);
 
@@ -54,24 +53,12 @@ function editProfile() {
     jobInput.value = profileJob.textContent;
 }
 
-// Функция закрытия popup профиля
-profileCloseButton.addEventListener('click', () => closePopup(editProfilePopup));
-
-
 // Добавление карточки
 showAddCardPopup.addEventListener('click', function () {
     openPopup(addCardPopup);
 });
 
 formCard.addEventListener('submit', saveCardForm);
-
-
-// Функция закрытия popup отображения картинок
-imageCloseButton.addEventListener('click', () => closePopup(imagePopup));
-
-// Функция закрытия popup добавления карточек
-cardCloseButton.addEventListener('click', () => closePopup(addCardPopup));
-
 
 enableValidation(validationConfig) // Вызываем функцию
 

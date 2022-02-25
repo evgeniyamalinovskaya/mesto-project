@@ -99,4 +99,4 @@ const enableValidation = (config) => {
     });
 };
 
-export {validationConfig, enableValidation, hideInputElement, hideErrorElement};
+export {validationConfig, enableValidation, hideInputElement, hideErrorElement, disableButton};

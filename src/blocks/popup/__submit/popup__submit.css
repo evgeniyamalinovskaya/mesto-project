@@ -24,6 +24,7 @@
 
 .popup__submit:focus {
     outline: none;
+
 }
 
 @media (max-width: 767px) {

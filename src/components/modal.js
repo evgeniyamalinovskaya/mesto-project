@@ -1,6 +1,6 @@
-import {closePopup} from './utils.js';
+import {closePopup, clearForm} from './utils.js';
 import {cardContainer, createCard} from './card.js';
-import {hideInputElement, hideErrorElement, validationConfig} from './validate.js';
+import {disableButton, validationConfig} from './validate.js';
 
 // Кнопки редактирование профиля
 const editProfilePopup = document.querySelector('.popup_profile');
@@ -18,14 +18,13 @@ const jobInput = formElement.querySelector('input[name="about"]');
 // Кнопки добавление карточек
 const addCardPopup = document.querySelector('.popup_card');
 const showAddCardPopup = document.querySelector('.profile__add-button');
-const cardCloseButton = addCardPopup.querySelector('.popup__close-button');
+
 // Форма в DOM добавления карточки
 const formCard = document.querySelector('form[name="form-card"]');
 // 2. Находим поля формы в DOM
 const placeInput = formCard.querySelector('input[name="name"]');
 const linkInput = formCard.querySelector('input[name="link"]');
-const errorTextList = formCard.querySelectorAll('.popup__error');
-const errorInputList = formCard.querySelectorAll('.popup__item');
+const addCardSubmit= document.querySelector('#add-card-submit');
 
 function saveProfileForm(evt) {
     evt.preventDefault();
@@ -45,29 +44,17 @@ function saveCardForm(evt) {
     // Сохранение данных
     cardContainer.prepend(createCard(placeInput.value, linkInput.value));
 
+    // Кнопка не активна без заполнения полей формы
+    disableButton(addCardSubmit, validationConfig);
+
     // закрытие карточки
     closePopup(addCardPopup);
 
     // Очищаем форму карточки
-    clearCardForm();
-}
-
-// Функция очистки поля в форме карточки
-function clearCardForm() {
-    placeInput.value = "";
-    linkInput.value = "";
-
-    errorInputList.forEach(errorInputElement => {
-        hideInputElement(errorInputElement, validationConfig)
-    });
-
-    errorTextList.forEach(errorTextElement => {
-        hideErrorElement(errorTextElement, validationConfig)
-    });
+    clearForm(addCardPopup);
 }
 
 export {
-    clearCardForm,
     editProfilePopup,
     profileEditButton,
     profileCloseButton,
@@ -78,7 +65,6 @@ export {
     jobInput,
     addCardPopup,
     showAddCardPopup,
-    cardCloseButton,
     formCard,
     placeInput,
     linkInput,

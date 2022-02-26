@@ -14,7 +14,6 @@ const handleClickOverlay = (evt) => {
     if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close-button')) {
         const activePopup = document.querySelector('.popup_opened');
         closePopup(activePopup);
-        clearForm(activePopup)
     }
 };
 
@@ -23,7 +22,6 @@ const handleEscUp = (evt) => {
     if (evt.keyCode === buttonEscKey) {
         const activePopup = document.querySelector('.popup_opened');
         closePopup(activePopup);
-        clearForm(activePopup)
     }
 };
 

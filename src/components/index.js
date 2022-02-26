@@ -1,6 +1,6 @@
 import '../pages/index.css'; // добавьте импорт главного файла стилей
 
-import { openPopup } from './utils.js'; //функции открытия и закрытия popup
+import {clearForm, openPopup} from './utils.js'; //функции открытия и закрытия popup
 import { enableValidation, validationConfig} from './validate.js';
 import { createCard, cardContainer} from './card.js';
 import { editProfilePopup, profileEditButton, profileTitle, profileJob, formElement, nameInput, jobInput, addCardPopup, showAddCardPopup, formCard, saveCardForm, saveProfileForm} from './modal.js';
@@ -45,6 +45,8 @@ profileEditButton.addEventListener('click', editProfile);
 formElement.addEventListener('submit', saveProfileForm);
 
 function editProfile() {
+    // Очищаем форму
+    clearForm(editProfilePopup);
     // Открываем popup
     openPopup(editProfilePopup);
 
@@ -55,6 +57,9 @@ function editProfile() {
 
 // Добавление карточки
 showAddCardPopup.addEventListener('click', function () {
+    // Очищаем форму
+    clearForm(addCardPopup);
+    // Открываем popup
     openPopup(addCardPopup);
 });
 

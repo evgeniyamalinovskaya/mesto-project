@@ -1,4 +1,5 @@
-import {openPopup, closePopup} from "./utils";
+import {openPopup, closePopup, clearForm} from "./utils";
+import {addCardPopup} from "./modal";
 
 // Находим поля формы в DOM добавления карточки
 const cardTemplate = document.querySelector('#card-template').content;

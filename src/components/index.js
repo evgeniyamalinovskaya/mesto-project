@@ -45,8 +45,6 @@ profileEditButton.addEventListener('click', editProfile);
 formElement.addEventListener('submit', saveProfileForm);
 
 function editProfile() {
-    // Очищаем форму
-    clearForm(editProfilePopup);
     // Открываем popup
     openPopup(editProfilePopup);
 

@@ -60,12 +60,10 @@ function saveAvatarForm(evt) {
     evt.preventDefault();
     // Вызов функции изменения текста
     buttonSaveAvatar.textContent = 'Сохранение...';
-    // Сохранение данных
-    imageAvatar.src = avatarInput.value;
     //Вызываем функцию api
     API.createImageAvatar(avatarInput.value)
         .then ((data) => {
-                imageAvatar.src = (`${data.avatar}`);
+                imageAvatar.src = data.avatar;
                 // Кнопка не активна без заполнения полей формы
                 disableButton(avatarSubmit, validationConfig);
                 // закрытие аватарки

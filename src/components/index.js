@@ -1,43 +1,55 @@
 import '../pages/index.css'; // добавьте импорт главного файла стилей
 
-import {clearForm, openPopup} from './utils.js'; //функции открытия и закрытия popup
+import { clearForm, openPopup} from './utils.js'; //функции открытия и закрытия popup
 import { enableValidation, validationConfig} from './validate.js';
 import { createCard, cardContainer} from './card.js';
-import { editProfilePopup, profileEditButton, profileTitle, profileJob, formElement, nameInput, jobInput, addCardPopup, showAddCardPopup, formCard, saveCardForm, saveProfileForm} from './modal.js';
+import {
+    imageAvatar,
+    avatarButton,
+    avatarChangeProfile,
+    formAvatar,
+    saveAvatarForm,
+    editProfilePopup,
+    profileEditButton,
+    profileTitle,
+    profileJob,
+    formElement,
+    nameInput,
+    jobInput,
+    addCardPopup,
+    showAddCardPopup,
+    formCard,
+    saveCardForm,
+    saveProfileForm,
+} from './modal.js';
+import API from './api.js';
 
-//Стандартные карточки
-const initialCards = [
-    {
-        name: 'Архыз',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-        name: 'Челябинская область',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-        name: 'Иваново',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-        name: 'Камчатка',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-        name: 'Холмогорский район',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-        name: 'Байкал',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
+// Всё с сервера
+Promise.all([API.getProfile(), API.getCard()]) //Функции получения данных Профиля и карточки (возвращает результат выполнения функции fetch)
+    .then(([user, card]) => { // данные
+        profileTitle.textContent = user.name;
+        profileJob.textContent = user.about;
+        imageAvatar.src = user.avatar;
+        const standardCards = card.map(function (card) {
+            return createCard(card.name, card.link, card._id, card.likes, user._id, card.owner);
+        });
+        cardContainer.prepend(...standardCards);
+    })
+    .catch(err => {
+        console.log(err);
+    });
 
-// Добавить стандартные карточки
-const standardCards = initialCards.map(function (card) {
-    return createCard(card.name, card.link);
-});
-cardContainer.prepend(...standardCards);
+//Открытие формы, изменения аватарки профиля
+avatarButton.addEventListener('click', avatarProfile);
+
+formAvatar.addEventListener('submit', saveAvatarForm);
+
+function avatarProfile() {
+    // Очищаем форму
+    clearForm(avatarChangeProfile);
+    // Открываем popup
+    openPopup(avatarChangeProfile);
+}
 
 // Открытие формы, изменение данных профиля
 profileEditButton.addEventListener('click', editProfile);
@@ -63,7 +75,7 @@ showAddCardPopup.addEventListener('click', function () {
 
 formCard.addEventListener('submit', saveCardForm);
 
-enableValidation(validationConfig) // Вызываем функцию
+enableValidation(validationConfig) // Вызываем функцию из валидации
 
 
 

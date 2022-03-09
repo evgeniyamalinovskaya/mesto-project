@@ -18,6 +18,7 @@
     <main>
         <section class="profile">
             <img class="profile__avatar-image" src="<%=require('./images/profile-image.jpg')%>" alt="фото">
+            <button type="button" class="profile__avatar-button"></button>
             <div class="profile__container">
                 <h1 class="profile__title">Жак-Ив Кусто</h1>
                 <button type="button" class="profile__edit-button"></button>
@@ -34,7 +35,10 @@
                         <img class="elements__image" src="images/karachevsk.jpg" alt="Замок в горах">
                         <div class="elements__wrap">
                             <h2 class="elements__title">Карачаевск</h2>
+                            <div class="elements__like-wrapper">
                             <button type="button" class="elements__like"></button>
+                                <span class="elements__like-numbers">0</span>
+                        </div>
                         </div>
                         <button type="button" class="elements__remove-button"></button>
                     </li>
@@ -56,17 +60,17 @@
                 <form name="form-info" class="form" novalidate>
                     <fieldset class="popup__item-container">
                         <label class="popup__input-container">
-                        <input class="popup__item" type="text" name="username" id="username"
-                               placeholder="Жак-Ив Кусто" required="required" minlength="2" maxlength="40">
-                        <span id="error-username" class="popup__error"></span>
+                            <input class="popup__item" type="text" name="username" id="username"
+                                   placeholder="Жак-Ив Кусто" required="required" minlength="2" maxlength="40">
+                            <span id="error-username" class="popup__error"></span>
                         </label>
                         <label class="popup__input-container">
-                        <input class="popup__item" type="text" name="about" id="about"
-                               placeholder="Исследователь океана" required="required" minlength="2" maxlength="200">
-                        <span id="error-about" class="popup__error"></span>
+                            <input class="popup__item" type="text" name="about" id="about"
+                                   placeholder="Исследователь океана" required="required" minlength="2" maxlength="200">
+                            <span id="error-about" class="popup__error"></span>
                         </label>
                     </fieldset>
-                    <button class="popup__submit" type="submit">Сохранить</button>
+                    <button class="popup__submit popup__submit_save_profile" type="submit">Сохранить</button>
                 </form>
             </div>
         </div>
@@ -80,17 +84,17 @@
                 <form name="form-card" class="form" novalidate>
                     <fieldset class="popup__item-container">
                         <label class="popup__input-container">
-                        <input class="popup__item" type="text" name="name" id="name"
-                               placeholder="Название" required="required" value="" minlength="2" maxlength="30">
-                        <span id="error-name" class="popup__error"></span>
+                            <input class="popup__item" type="text" name="name" id="name"
+                                   placeholder="Название" required="required" value="" minlength="2" maxlength="30">
+                            <span id="error-name" class="popup__error"></span>
                         </label>
                         <label class="popup__input-container">
-                        <input class="popup__item" type="url" name="link" id="link"
-                               placeholder="Ссылка на картинку" required="required" value="">
-                        <span id="error-link" class="popup__error"></span>
+                            <input class="popup__item" type="url" name="link" id="link"
+                                   placeholder="Ссылка на картинку" required="required" value="">
+                            <span id="error-link" class="popup__error"></span>
                         </label>
                     </fieldset>
-                    <button class="popup__submit" type="submit" id="add-card-submit">Создать</button>
+                    <button class="popup__submit popup__submit_save_card" type="submit" id="add-card-submit">Создать</button>
                 </form>
             </div>
         </div>
@@ -104,6 +108,25 @@
                 <figcaption class="popup__caption"></figcaption>
             </figure>
             <button class="popup__close-button" type="button" aria-label="Выйти"></button>
+        </div>
+    </div>
+
+    <div class="popup popup_avatar">
+        <div class="popup__container">
+            <button class="popup__close-button" type="button" aria-label="Выйти"></button>
+            <div class="popup__form">
+                <h2 class="popup__title">Обновить аватар</h2>
+                <form name="form-avatar" class="form" novalidate>
+                    <fieldset class="popup__item-container">
+                    <label class="popup__input-container">
+                        <input class="popup__item" type="url" name="link" id="link-avatar"
+                               placeholder="Ссылка на картинку" required="required" value="">
+                        <span id="error-link-avatar" class="popup__error"></span>
+                    </label>
+                    </fieldset>
+                    <button class="popup__submit" type="submit" id="avatar-submit">Сохранить</button>
+                </form>
+            </div>
         </div>
     </div>
 

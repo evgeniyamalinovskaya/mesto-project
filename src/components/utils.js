@@ -6,14 +6,13 @@ const buttonEscKey = 27;
 function openPopup(popup) {
     popup.classList.add('popup_opened');
     document.addEventListener('keydown', handleEscUp);
-    popup.addEventListener('click', handleClickOverlay);
+    popup.addEventListener('mousedown', handleClickOverlay);
 }
 
 //Функция на overlay
 const handleClickOverlay = (evt) => {
     if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close-button')) {
-        const activePopup = document.querySelector('.popup_opened');
-        closePopup(activePopup);
+        closePopup(evt.currentTarget);
     }
 };
 
@@ -29,8 +28,7 @@ const handleEscUp = (evt) => {
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
     document.removeEventListener('keydown', handleEscUp);
-    console.log(handleEscUp)
-    popup.removeEventListener('click', handleClickOverlay);
+    popup.removeEventListener('mousedown', handleClickOverlay);
 }
 
 // Функция очистки поля в форме карточки

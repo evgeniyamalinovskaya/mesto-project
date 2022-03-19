@@ -5,13 +5,14 @@
   "main": "src/components/index.js",
   "scripts": {
     "build": "webpack --mode production",
-    "dev": "webpack serve"
+    "dev": "webpack serve",
+    "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/evgeniyamalinovskaya/mesto-project.git"
   },
-  "author": "Evgeniya Malinovskaya",
+  "author": "Evgeniya Malinovskaya && Zhuk Ivan",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/evgeniyamalinovskaya/mesto-project/issues"
@@ -25,6 +26,7 @@
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.6.0",
     "cssnano": "^5.0.17",
+    "gh-pages": "^3.2.3",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.5.3",
     "postcss-loader": "^6.2.1",

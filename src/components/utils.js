@@ -1,3 +1,4 @@
+import { deletePopup } from "./card";
 import {hideErrorElement, hideInputElement, validationConfig} from "./validate";
 
 const buttonEscKey = 27;
@@ -12,23 +13,26 @@ function openPopup(popup) {
 //Функция на overlay
 const handleClickOverlay = (evt) => {
     if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close-button')) {
-        closePopup(evt.currentTarget);
+        closePopup();
     }
 };
 
 //Функция на esc
 const handleEscUp = (evt) => {
     if (evt.keyCode === buttonEscKey) {
-        const activePopup = document.querySelector('.popup_opened');
-        closePopup(activePopup);
+        closePopup();
     }
 };
 
 // Универсальная функция закрытия всех popup по нажатию на esc, overlay, крестик
-function closePopup(popup) {
-    popup.classList.remove('popup_opened');
+function closePopup() {
+    const popupOpened = document.querySelector('.popup_opened');
+    popupOpened.classList.remove('popup_opened');
     document.removeEventListener('keydown', handleEscUp);
-    popup.removeEventListener('mousedown', handleClickOverlay);
+    popupOpened.removeEventListener('mousedown', handleClickOverlay);
+    if (popupOpened.classList.contains('popup_delete')) {
+        deletePopup.dataset.IdToDelete ='';
+    }
 }
 
 // Функция очистки поля в форме карточки

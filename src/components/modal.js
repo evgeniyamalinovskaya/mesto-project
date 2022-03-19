@@ -1,5 +1,5 @@
 import {closePopup, clearForm} from './utils.js';
-import {cardContainer, createCard} from './card.js';
+import {cardContainer, createCard, deleteCardRemove, deletePopup} from './card.js';
 import {disableButton, validationConfig} from './validate.js';
 import API from './api.js';
 
@@ -30,9 +30,8 @@ const placeInput = formCard.querySelector('input[name="name"]');
 const linkInput = formCard.querySelector('input[name="link"]');
 const addCardSubmit= document.querySelector('#add-card-submit');
 // Кнопки замены текста submit
-const buttonSaveCard = document.querySelector('.popup__submit_save_card')
-const buttonSaveProfile = document.querySelector('.popup__submit_save_profile')
-const buttonSaveAvatar = avatarChangeProfile.querySelector('#avatar-submit')
+const buttonSaveProfile = document.querySelector('.popup__submit_save_profile');
+const formDelete = document.querySelector('form[name="form-delete"]');
 
 //Функция на изменения редактирования профиля
 function saveProfileForm(evt) {
@@ -45,7 +44,7 @@ function saveProfileForm(evt) {
                 profileTitle.textContent = data.name;
                 profileJob.textContent = data.about;
                 // Закрытие профиля
-                closePopup(editProfilePopup);
+                closePopup();
         })
         .catch((err) => {
             console.log(err);
@@ -59,7 +58,7 @@ function saveProfileForm(evt) {
 function saveAvatarForm(evt) {
     evt.preventDefault();
     // Вызов функции изменения текста
-    buttonSaveAvatar.textContent = 'Сохранение...';
+    avatarSubmit.textContent = 'Сохранение...';
     //Вызываем функцию api
     API.createImageAvatar(avatarInput.value)
         .then ((data) => {
@@ -67,7 +66,7 @@ function saveAvatarForm(evt) {
                 // Кнопка не активна без заполнения полей формы
                 disableButton(avatarSubmit, validationConfig);
                 // закрытие аватарки
-                closePopup(avatarChangeProfile);
+                closePopup();
                 // Очищаем форму аватарки
                 clearForm(avatarChangeProfile);
     })
@@ -75,7 +74,7 @@ function saveAvatarForm(evt) {
         console.log(err);
     })
         .finally(() => {
-            buttonSaveAvatar.textContent = 'Сохранить';
+            avatarSubmit.textContent = 'Сохранить';
         })
 }
 
@@ -83,7 +82,7 @@ function saveAvatarForm(evt) {
 function saveCardForm(evt) {
     evt.preventDefault();
     // Вызов функции изменения текста
-    buttonSaveCard.textContent = 'Сохранение...';
+    addCardSubmit.textContent = 'Сохранение...';
     //Вызываем функцию api
     API.createTaskCard(placeInput.value, linkInput.value)
         .then ((res) => {
@@ -92,7 +91,7 @@ function saveCardForm(evt) {
                 // Кнопка не активна без заполнения полей формы
                 disableButton(addCardSubmit, validationConfig);
                 // закрытие карточки
-                closePopup(addCardPopup);
+                closePopup();
                 // Очищаем форму карточки
                 clearForm(addCardPopup);
         })
@@ -100,8 +99,17 @@ function saveCardForm(evt) {
             console.log(err);
         })
         .finally(() => {
-            buttonSaveAvatar.textContent = 'Сохранить';
+            addCardSubmit.textContent = 'Сохранить';
         })
+}
+
+//Функция удаления карточки навсегда
+function acceptCardDelete(evt) {
+    evt.preventDefault();
+    const IdToDelete = deletePopup.dataset.IdToDelete;
+    deleteCardRemove(IdToDelete);
+     // закрытие попапа удаления карточки
+     closePopup();
 }
 
 
@@ -125,5 +133,7 @@ export {
     placeInput,
     linkInput,
     saveCardForm,
-    saveProfileForm
+    saveProfileForm,
+    acceptCardDelete, 
+    formDelete
 }

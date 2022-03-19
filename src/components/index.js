@@ -21,6 +21,8 @@ import {
     formCard,
     saveCardForm,
     saveProfileForm,
+    acceptCardDelete,
+    formDelete
 } from './modal.js';
 import API from './api.js';
 
@@ -66,7 +68,7 @@ function editProfile() {
 }
 
 // Добавление карточки
-showAddCardPopup.addEventListener('click', function () {
+showAddCardPopup.addEventListener('click', function() {
     // Очищаем форму
     clearForm(addCardPopup);
     // Открываем popup
@@ -74,6 +76,9 @@ showAddCardPopup.addEventListener('click', function () {
 });
 
 formCard.addEventListener('submit', saveCardForm);
+
+//Удаление карточки
+formDelete.addEventListener('submit', acceptCardDelete);
 
 enableValidation(validationConfig) // Вызываем функцию из валидации
 

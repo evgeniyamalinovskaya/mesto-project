@@ -2,7 +2,7 @@ import '../pages/index.css'; // добавьте импорт главного �
 
 import { clearForm, openPopup} from './utils.js'; //функции открытия и закрытия popup
 import { enableValidation, validationConfig} from './validate.js';
-import { createCard, cardContainer} from './card.js';
+import { Card, cardContainer} from './card.js';
 import {
     imageAvatar,
     avatarButton,
@@ -33,7 +33,8 @@ Promise.all([API.getProfile(), API.getCard()]) //Функции получени
         profileJob.textContent = user.about;
         imageAvatar.src = user.avatar;
         const standardCards = card.map(function (card) {
-            return createCard(card.name, card.link, card._id, card.likes, user._id, card.owner);
+            const cardToCreate = new Card(card, user._id)
+            return cardToCreate.createCard()
         });
         cardContainer.prepend(...standardCards);
     })

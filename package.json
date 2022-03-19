@@ -6,14 +6,13 @@
   "scripts": {
     "build": "webpack --mode production",
     "dev": "webpack serve",
-    "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/evgeniyamalinovskaya/mesto-project.git"
   },
-  "author": "Evgeniya Malinovskaya",
+  "author": "Evgeniya Malinovskaya && Zhuk Ivan",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/evgeniyamalinovskaya/mesto-project/issues"

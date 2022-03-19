@@ -1,5 +1,5 @@
 import {closePopup, clearForm} from './utils.js';
-import {cardContainer, createCard, deleteCardRemove, deletePopup} from './card.js';
+import {cardContainer, /* createCard, */ deleteCardRemove, deletePopup} from './card.js';
 import {disableButton, validationConfig} from './validate.js';
 import API from './api.js';
 

@@ -55,18 +55,46 @@ function avatarProfile() {
 }
 
 // Открытие формы, изменение данных профиля
-profileEditButton.addEventListener('click', editProfile);
+//profileEditButton.addEventListener('click', editProfile);
 
 formElement.addEventListener('submit', saveProfileForm);
 
-function editProfile() {
-    // Открываем popup
-    openPopup(editProfilePopup);
 
-    // Подставляем значения из профиля
-    nameInput.value = profileTitle.textContent;
-    jobInput.value = profileJob.textContent;
+export class Profile {
+    constructor({nameInput, jobInput, id}) {
+        this._nameInput = nameInput;
+        this._jobInput = jobInput;
+        this._id = id;
+
+    }
+
+    getProfile() {
+        // Открытие формы, изменение данных профиля
+        profileEditButton.addEventListener('click', () => {
+            this._editProfile()
+        });
+    }
+
+
+    _editProfile(profileTitle, profileJob) {
+        // Открываем popup
+        openPopup(editProfilePopup);
+
+        // Подставляем значения из профиля
+        profileTitle.textContent = this._nameInput;
+        profileJob.textContent = this._jobInput;
+    }
 }
+
+
+// function editProfile() {
+//     // Открываем popup
+//     openPopup(editProfilePopup);
+//
+//     // Подставляем значения из профиля
+//     nameInput.value = profileTitle.textContent;
+//     jobInput.value = profileJob.textContent;
+// }
 
 // Добавление карточки
 showAddCardPopup.addEventListener('click', function() {

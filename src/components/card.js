@@ -7,6 +7,7 @@ const cardContainer = document.querySelector('.elements__list');
 const imagePopup = document.querySelector('.popup_image');
 const deletePopup = document.querySelector('.popup_delete');
 
+    //Класс добавляет готовую разметку на страницу
 export class Card {
     constructor({ name, link, _id, likes, owner }, userId) {
         this._name = name;
@@ -17,48 +18,55 @@ export class Card {
         this._userId = userId;
     }
 
+    // Метод добавит данные в разметку (Подготовка карточки к публикации)
     createCard() {
-        const cardTemplate = document.querySelector('#card-template').content;
-        const card = cardTemplate.querySelector('.elements__card').cloneNode(true);
-        const cardLike = card.querySelector('.elements__like');
-        const cardRemove = card.querySelector('.elements__remove-button');
-        const deleteCardButton = card.querySelector('.elements__remove-button');
-        const buttonLike = card.querySelector('.elements__like-numbers');
-        const cardImage = card.querySelector('.elements__image');
-        this._isLiked(card, this._likes, this._userId);
+        this._cardTemplate = document.querySelector('#card-template').content;
+        this._card = this._cardTemplate.querySelector('.elements__card').cloneNode(true);
+        this._cardLike = this._card.querySelector('.elements__like');
+        this._cardRemove = this._card.querySelector('.elements__remove-button');
+        const deleteCardButton = this._card.querySelector('.elements__remove-button');
+        this._buttonLike = this._card.querySelector('.elements__like-numbers');
+        this._cardImage = this._card.querySelector('.elements__image');
+        this._isLiked(this._card, this._likes, this._userId);
         //Функция удаления с чужих карточек иконки корзинки
         if (this._userId !== this._owner._id) {
             deleteCardButton.remove();
         }
 
-        this._render(card, buttonLike, cardImage);
+        this._render(this._card, this._buttonLike, this._cardImage);
 
+        //Вызываем метод слушателей событий
+        this._setEventListeners();
+        
+        //Вернем карточку
+        return this._card;
+    }
+
+    // Метод обработки слушателей событий (добавила метод)
+    _setEventListeners() {
         // Добавление лайка карточке
-        cardLike.addEventListener('click', (evt) => {
-            this._addNumbersLike(evt, buttonLike, card)
+        this._cardLike.addEventListener('click', (evt) => {
+            this._addNumbersLike(evt, this._buttonLike, this._card)
         });
-       
+
         // Удаление карточки
-        cardRemove.addEventListener('click', () => {
+        this._cardRemove.addEventListener('click', () => {
             openPopup(deletePopup);
             deletePopup.dataset.IdToDelete = this._id;
         });
 
         // При клике на карточку открыть картинку во всплывающем окне
-        cardImage.addEventListener('click', () => {
+        this._cardImage.addEventListener('click', () => {
             this._zoomImagePopup()});
-        
-
-        return card;
     }
 
-    /* Проверяем поставлен ли лайк */
+    // Проверяем поставлен ли лайк
     _isLiked(cardItem, likes, userId) {
     if (likes.some(like => like._id === userId)) {
       cardItem.querySelector('.elements__like').classList.add('elements__like_active');
     }
     }
-
+    // Метод
     _render(card, buttonLike, cardImage) {
         const cardText = card.querySelector('.elements__title');
         
@@ -92,7 +100,7 @@ export class Card {
                 });
         }
     }
-    
+    // Функция открытия картинки во всплывающем окне
     _zoomImagePopup() {
         const zoomedImagePopup = document.querySelector('.popup__image');
         const imageText = document.querySelector('.popup__caption');
@@ -105,7 +113,19 @@ export class Card {
         imageText.textContent = this._name;
     }
 }
-
+    //Функция удаления карточки
+    function deleteCardRemove(id) {
+    API.deleteTaskCard(id)
+        .then(() => {
+            document.querySelector(`.elements__card[data-id="${id}"]`).remove();
+        })
+        .catch(err => {
+            console.log(err);
+        })
+        .finally(() => {
+            deletePopup.dataset.IdToDelete ='';
+        })
+}
 
 
 
@@ -164,19 +184,7 @@ function createCard(placeValue, linkValue, id, likes, userId, owner) {
     }
 } */
 
-//Функция удаления карточки
-function deleteCardRemove(id) {
-    API.deleteTaskCard(id)
-        .then(() => {
-            document.querySelector(`.elements__card[data-id="${id}"]`).remove();
-        })
-        .catch(err => {
-            console.log(err);
-        })
-        .finally(() => {
-            deletePopup.dataset.IdToDelete ='';
-        })
-}
+
 
 /* // Функция добавление лайка карточке
 function addNumbersLike(evt, buttonLike, card) {

@@ -18,10 +18,20 @@ export class Card {
         this._userId = userId;
     }
 
+    //Метод извлекает шаблон из разметки из DOM
+    _getElement() {
+        return document
+            .querySelector('#card-template')
+            .content
+            .querySelector('.elements__card')
+            .cloneNode(true);
+    }
+
     // Метод добавит данные в разметку (Подготовка карточки к публикации)
     createCard() {
-        this._cardTemplate = document.querySelector('#card-template').content;
-        this._card = this._cardTemplate.querySelector('.elements__card').cloneNode(true);
+        // this._cardTemplate = document.querySelector('#card-template').content;
+        // this._card = this._cardTemplate.querySelector('.elements__card').cloneNode(true);
+        this._card = this._getElement();
         this._cardLike = this._card.querySelector('.elements__like');
         this._cardRemove = this._card.querySelector('.elements__remove-button');
         const deleteCardButton = this._card.querySelector('.elements__remove-button');

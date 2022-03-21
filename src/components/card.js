@@ -29,21 +29,20 @@ export class Card {
 
     // Метод добавит данные в разметку (Подготовка карточки к публикации)
     createCard() {
-        // this._cardTemplate = document.querySelector('#card-template').content;
-        // this._card = this._cardTemplate.querySelector('.elements__card').cloneNode(true);
         this._card = this._getElement();
+        this._cardText = this._card.querySelector('.elements__title');
         this._cardLike = this._card.querySelector('.elements__like');
         this._cardRemove = this._card.querySelector('.elements__remove-button');
-        const deleteCardButton = this._card.querySelector('.elements__remove-button');
         this._buttonLike = this._card.querySelector('.elements__like-numbers');
         this._cardImage = this._card.querySelector('.elements__image');
-        this._isLiked(this._card, this._likes, this._userId);
+        this._isLiked();
+
         //Функция удаления с чужих карточек иконки корзинки
         if (this._userId !== this._owner._id) {
-            deleteCardButton.remove();
+            this._cardRemove.remove();
         }
 
-        this._render(this._card, this._buttonLike, this._cardImage);
+        this._render();
 
         //Вызываем метод слушателей событий
         this._setEventListeners();
@@ -55,8 +54,8 @@ export class Card {
     // Метод обработки слушателей событий (добавила метод)
     _setEventListeners() {
         // Добавление лайка карточке
-        this._cardLike.addEventListener('click', (evt) => {
-            this._addNumbersLike(evt, this._buttonLike, this._card)
+        this._cardLike.addEventListener('click', () => {
+            this._addNumbersLike();
         });
 
         // Удаление карточки
@@ -71,39 +70,37 @@ export class Card {
     }
 
     // Проверяем поставлен ли лайк
-    _isLiked(cardItem, likes, userId) {
-    if (likes.some(like => like._id === userId)) {
-      cardItem.querySelector('.elements__like').classList.add('elements__like_active');
+    _isLiked() {
+    if (this._likes.some(like => like._id === this._userId)) {
+        this._cardLike.classList.add('elements__like_active');
     }
     }
     // Метод
-    _render(card, buttonLike, cardImage) {
-        const cardText = card.querySelector('.elements__title');
-        
-        // Подставить введенные данные из формы
-        cardImage.src = this._link;
-        cardImage.alt = this._name;
-        cardText.textContent = this._name;
-        card.dataset.id = this._id;
-        buttonLike.textContent = this._likes.length;
+    _render() {
+    // Подставить введенные данные из формы
+        this._cardImage.src = this._link;
+        this._cardImage.alt = this._name;
+        this._cardText.textContent = this._name;
+        this._card.dataset.id = this._id;
+        this._buttonLike.textContent = this._likes.length;
     }
 
     // Функция добавление лайка карточке
-    _addNumbersLike(evt, buttonLike, card) {
-        if (evt.target.classList.contains('elements__like_active')) {
-            API.deleteLike(card.dataset.id)
+    _addNumbersLike() {
+        if (this._cardLike.classList.contains('elements__like_active')) {
+            API.deleteLike(this._card.dataset.id)
                 .then((res) => {
-                    evt.target.classList.remove('elements__like_active');
-                    buttonLike.textContent = res.likes.length;
+                    this._cardLike.classList.remove('elements__like_active');
+                    this._buttonLike.textContent = res.likes.length;
                 })
                 .catch(err => {
                     console.log(err);
                 });
         } else {
-            API.addLike(card.dataset.id)
+            API.addLike(this._card.dataset.id)
                 .then((res) => {
-                    evt.target.classList.add('elements__like_active');
-                    buttonLike.textContent = res.likes.length;
+                    this._cardLike.classList.add('elements__like_active');
+                    this._buttonLike.textContent = res.likes.length;
                 })
                 .catch(err => {
                     console.log(err);

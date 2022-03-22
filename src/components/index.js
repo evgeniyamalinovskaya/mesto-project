@@ -118,7 +118,8 @@ const validationConfig = {
     buttonDisabledClass: 'popup__submit_disabled',
 }
 // Вызываем функцию из валидации
-new Validation(validationConfig).enableValidation();
+const forms = Array.from(document.querySelectorAll('.form'));
+new Validation(forms, validationConfig).enableValidation();
 
 export {validationConfig}
 

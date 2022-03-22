@@ -1,7 +1,7 @@
 import '../pages/index.css'; // добавьте импорт главного файла стилей
 
 import { clearForm, openPopup} from './utils.js'; //функции открытия и закрытия popup
-import { enableValidation, validationConfig} from './validate.js';
+import Validation from './validate.js';
 import { Card, cardContainer} from './card.js';
 import {
     imageAvatar,
@@ -55,45 +55,44 @@ function avatarProfile() {
 }
 
 // Открытие формы, изменение данных профиля
-//profileEditButton.addEventListener('click', editProfile);
+profileEditButton.addEventListener('click', editProfile);
 
 formElement.addEventListener('submit', saveProfileForm);
 
+function editProfile() {
+    // Открываем popup
+    openPopup(editProfilePopup);
 
-export class Profile {
-    constructor({nameInput, jobInput, id}) {
-        this._nameInput = nameInput;
-        this._jobInput = jobInput;
-        this._id = id;
-
-    }
-
-    getProfile() {
-        // Открытие формы, изменение данных профиля
-        profileEditButton.addEventListener('click', () => {
-            this._editProfile()
-        });
-    }
-
-
-    _editProfile(profileTitle, profileJob) {
-        // Открываем popup
-        openPopup(editProfilePopup);
-
-        // Подставляем значения из профиля
-        profileTitle.textContent = this._nameInput;
-        profileJob.textContent = this._jobInput;
-    }
+    // Подставляем значения из профиля
+    nameInput.value = profileTitle.textContent;
+    jobInput.value = profileJob.textContent;
 }
 
 
-// function editProfile() {
-//     // Открываем popup
-//     openPopup(editProfilePopup);
+// export class Profile {
+//     constructor({nameInput, jobInput, id}) {
+//         this._nameInput = nameInput;
+//         this._jobInput = jobInput;
+//         this._id = id;
 //
-//     // Подставляем значения из профиля
-//     nameInput.value = profileTitle.textContent;
-//     jobInput.value = profileJob.textContent;
+//     }
+//
+//     getProfile() {
+//         // Открытие формы, изменение данных профиля
+//         profileEditButton.addEventListener('click', () => {
+//             this._editProfile()
+//         });
+//     }
+//
+//
+//     _editProfile(profileTitle, profileJob) {
+//         // Открываем popup
+//         openPopup(editProfilePopup);
+//
+//         // Подставляем значения из профиля
+//         profileTitle.textContent = this._nameInput;
+//         profileJob.textContent = this._jobInput;
+//     }
 // }
 
 // Добавление карточки
@@ -109,7 +108,18 @@ formCard.addEventListener('submit', saveCardForm);
 //Удаление карточки
 formDelete.addEventListener('submit', acceptCardDelete);
 
-enableValidation(validationConfig) // Вызываем функцию из валидации
+// Объекты валидации
+const validationConfig = {
+    formSelector: '.form',
+    inputSelector: '.popup__item',
+    inputErrorClass: 'popup__item_invalid',
+    errorClass: 'popup__error_visible',
+    buttonSelector: '.popup__submit',
+    buttonDisabledClass: 'popup__submit_disabled',
+}
+// Вызываем функцию из валидации
+new Validation(validationConfig).enableValidation();
 
+export {validationConfig}
 
 

@@ -1,5 +1,7 @@
 import {openPopup,} from "./utils";
 import API from './api.js';
+import Validation from "./validate";
+
 
 // Находим поля формы в DOM добавления карточки
 const cardContainer = document.querySelector('.elements__list');

@@ -1,5 +1,5 @@
 import { deletePopup } from "./card";
-import {hideErrorElement, hideInputElement, validationConfig} from "./validate";
+import { validationConfig } from "./index.js";
 
 const buttonEscKey = 27;
 
@@ -43,13 +43,13 @@ function clearForm(popup) {
         const errorInputList = form.querySelectorAll('.popup__item');
 
         errorInputList.forEach(errorInputElement => {
-            hideInputElement(errorInputElement, validationConfig)
+            this._hideInputElement(errorInputElement, validationConfig)
             errorInputElement.value = "";
 
         });
 
         errorTextList.forEach(errorTextElement => {
-            hideErrorElement(errorTextElement, validationConfig)
+            this._hideErrorElement(errorTextElement, validationConfig)
             errorTextElement.value = "";
         });
     }

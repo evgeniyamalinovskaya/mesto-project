@@ -1,7 +1,9 @@
 import {closePopup, clearForm} from './utils.js';
-import {cardContainer, /* createCard, */ deleteCardRemove, deletePopup} from './card.js';
-import {disableButton, validationConfig} from './validate.js';
+import {cardContainer, deleteCardRemove, deletePopup} from './card.js';
+import { validationConfig,} from "./index.js";
 import API from './api.js';
+
+
 
 //Кнопка редактирования аватарки
 const avatarButton = document.querySelector('.profile__avatar-button');

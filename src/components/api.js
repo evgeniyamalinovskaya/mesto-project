@@ -1,101 +1,111 @@
 //Информация (ссылка, токен, группа, тип данных)
-const config = {
-    url: 'https://nomoreparties.co/v1/plus-cohort7', //ссылка
-    headers: {
-        authorization: '41dbe325-3fa7-4285-bba8-932cc50cf0e5', // токен
-        'Content-Type': 'application/json' //тип данных для создания
+// const config = {
+//     url: 'https://nomoreparties.co/v1/plus-cohort7', //ссылка
+//     headers: {
+//         authorization: '41dbe325-3fa7-4285-bba8-932cc50cf0e5', // токен
+//         'Content-Type': 'application/json' //тип данных для создания
+//     }
+// };
+
+export default class Api {
+    constructor() {
+        this._config = {
+            url: 'https://nomoreparties.co/v1/plus-cohort7', //ссылка
+            headers: {
+                authorization: '41dbe325-3fa7-4285-bba8-932cc50cf0e5', // токен
+                'Content-Type': 'application/json' //тип данных для создания
+            }
+        }
     }
-};
 
 //Вспомогательная функция ответа
-const parseResponse = (res) => {
-    if (res.ok) {
-        return res.json();
+    _parseResponse(res) {
+        if (res.ok) {
+            return res.json();
+        }
+        return Promise.reject(new Error(`Произошла ошибка со статус-кодом ${res.status}`));
     }
-    return Promise.reject(new Error (`Произошла ошибка со статус-кодом ${res.status}`));
-}
 
 //Функция получения данных Профиля (возвращает результат выполнения функции fetch)
-const getProfile = () => {
-    return fetch (`${config.url}/users/me`, {  //добавляем аргумент
-        headers: config.headers,
-    })
-        .then (res => parseResponse (res))
-};
+    getProfile()  {
+        return fetch(`${this._config.url}/users/me`, {  //добавляем аргумент
+            headers: this._config.headers,
+        })
+            .then(res =>this._parseResponse(res));
+    };
 
 //Функция создания Профиля (функция принимает объекты)
-const createTaskProfile = (username, about) => {
-    const formInfo = {
-        name: username,
-        about: about
+    createTaskProfile(username, about) {
+        const formInfo = {
+            name: username,
+            about: about
+        };
+        return fetch(`${this._config.url}/users/me`, {
+            method: 'PATCH',                   //для частичного обновления ресурса(при обновлении профиля пользователя)
+            headers: this._config.headers,
+            body: JSON.stringify(formInfo)
+        })
+            .then(res =>this._parseResponse(res));
     };
-    return fetch (`${config.url}/users/me`, {
-        method: 'PATCH',                   //для частичного обновления ресурса(при обновлении профиля пользователя)
-        headers: config.headers,
-        body: JSON.stringify(formInfo)
-    })
-        .then (res => parseResponse (res))
-};
 
 //Функция получения данных Карточки (возвращает результат выполнения функции fetch)
-const getCard = () => {
-    return fetch (`${config.url}/cards`, {
-        headers: config.headers,
-    })
-        .then (res => parseResponse (res))
-};
+    getCard() {
+        return fetch(`${this._config.url}/cards`, {
+            headers: this._config.headers,
+        })
+            .then(res =>this._parseResponse(res));
+    };
 
 //Функция создания карточки (функция принимает объекты)
-const createTaskCard = (name, link) => {
-    const formCard = {
-        name: name,
-        link: link
+    createTaskCard(name, link) {
+        const formCard = {
+            name: name,
+            link: link
+        };
+        return fetch(`${this._config.url}/cards`, {
+            method: 'POST',                    //для отправки данных на сервер
+            headers: this._config.headers,
+            body: JSON.stringify(formCard)
+        })
+            .then(res =>this._parseResponse(res));
     };
-    return fetch (`${config.url}/cards`, {
-        method: 'POST',                    //для отправки данных на сервер
-        headers: config.headers,
-        body: JSON.stringify(formCard)
-    })
-        .then (res => parseResponse (res))
-};
 
 //Функция удаления карточки
-const deleteTaskCard = (id) => {
-    return fetch (`${config.url}/cards/${id}`, {
-        method: 'DELETE',                       //для удаления ресурса с сервера
-        headers: config.headers,
-    })
-        .then (res => parseResponse (res))
-};
+    deleteTaskCard(id) {
+        return fetch(`${this._config.url}/cards/${id}`, {
+            method: 'DELETE',                       //для удаления ресурса с сервера
+            headers: this._config.headers,
+        })
+            .then(res =>this._parseResponse(res));
+    };
 
 //Функция добавления лайка
-const addLike = (id) => {
-    return fetch (`${config.url}/cards/likes/${id}`, {
-        method: 'PUT',                          //предназначен для полного обновления указанного ресурса
-        headers: config.headers,
-    })
-        .then (res => parseResponse (res))
-};
+    addLike(id) {
+        return fetch(`${this._config.url}/cards/likes/${id}`, {
+            method: 'PUT',                          //предназначен для полного обновления указанного ресурса
+            headers: this._config.headers,
+        })
+            .then(res =>this._parseResponse(res));
+    };
 
 //Функция удаления лайка
-const deleteLike = (id) => {
-    return fetch (`${config.url}/cards/likes/${id}`, {
-        method: 'DELETE',                          //для удаления ресурса с сервера
-        headers: config.headers,
-    })
-        .then (res => parseResponse (res))
-};
+    deleteLike(id) {
+        return fetch(`${this._config.url}/cards/likes/${id}`, {
+            method: 'DELETE',                          //для удаления ресурса с сервера
+            headers: this._config.headers,
+        })
+            .then(res =>this._parseResponse(res));
+    };
 
 //Функция обновления (редактирования) аватарки (функция принимает объекты)
-const createImageAvatar = (image) => {
-    const formAvatar = { avatar: image };
-    return fetch (`${config.url}/users/me/avatar`, {
-        method: 'PATCH',                    //для отправки данных на сервер
-        headers: config.headers,
-        body: JSON.stringify(formAvatar)
-    })
-        .then (res => parseResponse (res))
-};
+    createImageAvatar(image) {
+        const formAvatar = {avatar: image};
+        return fetch(`${this._config.url}/users/me/avatar`, {
+            method: 'PATCH',                    //для отправки данных на сервер
+            headers: this._config.headers,
+            body: JSON.stringify(formAvatar)
+        })
+            .then(res =>this._parseResponse(res));
+    };
+}
 
-// export {config, parseResponse, getProfile, createTaskProfile, getCard, createTaskCard, deleteTaskCard, addLike, deleteLike, createImageAvatar}
-export default {parseResponse, getProfile, createTaskProfile, getCard, createTaskCard, deleteTaskCard, addLike, deleteLike, createImageAvatar}

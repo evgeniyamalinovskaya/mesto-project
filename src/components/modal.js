@@ -1,8 +1,7 @@
 import {closePopup, clearForm} from './utils.js';
 import {cardContainer, deleteCardRemove, deletePopup} from './card.js';
 import { validationConfig,} from "./index.js";
-import API from './api.js';
-
+import  Api from "./api.js";
 
 
 //Кнопка редактирования аватарки
@@ -35,13 +34,21 @@ const addCardSubmit= document.querySelector('#add-card-submit');
 const buttonSaveProfile = document.querySelector('.popup__submit_save_profile');
 const formDelete = document.querySelector('form[name="form-delete"]');
 
+export const api = new Api({
+    url: 'https://nomoreparties.co/v1/plus-cohort7', //ссылка
+    headers: {
+        authorization: '41dbe325-3fa7-4285-bba8-932cc50cf0e5', // токен
+        'Content-Type': 'application/json' //тип данных для создания
+    }
+});
+
 //Функция на изменения редактирования профиля
 function saveProfileForm(evt) {
     evt.preventDefault();
     // Вызов функции изменения текста
     buttonSaveProfile.textContent = 'Сохранение...';
     //Вызываем функцию api
-    API.createTaskProfile(nameInput.value, jobInput.value)
+    api.createTaskProfile(nameInput.value, jobInput.value)
         .then (data => {
                 profileTitle.textContent = data.name;
                 profileJob.textContent = data.about;
@@ -62,11 +69,11 @@ function saveAvatarForm(evt) {
     // Вызов функции изменения текста
     avatarSubmit.textContent = 'Сохранение...';
     //Вызываем функцию api
-    API.createImageAvatar(avatarInput.value)
+    api.createImageAvatar(avatarInput.value)
         .then ((data) => {
                 imageAvatar.src = data.avatar;
                 // Кнопка не активна без заполнения полей формы
-                disableButton(avatarSubmit, validationConfig);
+                //disableButton(avatarSubmit, validationConfig);
                 // закрытие аватарки
                 closePopup();
                 // Очищаем форму аватарки
@@ -86,7 +93,7 @@ function saveCardForm(evt) {
     // Вызов функции изменения текста
     addCardSubmit.textContent = 'Сохранение...';
     //Вызываем функцию api
-    API.createTaskCard(placeInput.value, linkInput.value)
+    api.createTaskCard(placeInput.value, linkInput.value)
         .then ((res) => {
                 // Сохранение данных
                 cardContainer.prepend(createCard(res.name, res.link, res._id, res.likes, res.owner._id, res.owner));

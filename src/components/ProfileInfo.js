@@ -2,9 +2,9 @@ import {jobInput, nameInput, profileJob, profileTitle} from "./modal";
 import API from './api.js';
 
 export default class Profile {
-    constructor({nameInput, jobInput}) {
-        this._nameInput = nameInput;
-        this._jobInput = jobInput;
+    constructor() {
+        this._nameInput = document.querySelector('input[name="username"]');
+        this._jobInput = document.querySelector('input[name="about"]');
     }
 
     getProfile() {

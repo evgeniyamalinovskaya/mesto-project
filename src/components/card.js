@@ -1,5 +1,5 @@
 import {openPopup,} from "./utils";
-import API from './api.js';
+import Api from './api.js';
 
 // Находим поля формы в DOM добавления карточки
 const cardContainer = document.querySelector('.elements__list');
@@ -14,6 +14,7 @@ const imageText = document.querySelector('.popup__caption');
     //Класс добавляет готовую разметку на страницу
 export class Card {
     constructor({ name, link, _id, likes, owner }, userId) {
+        this._api = new Api();
         this._name = name;
         this._link = link;
         this._id = _id;
@@ -93,7 +94,7 @@ export class Card {
     // Функция добавление лайка карточке
     _addNumbersLike() {
         if (this._cardLike.classList.contains('elements__like_active')) {
-            API.deleteLike(this._card.dataset.id)
+            this._api.deleteLike(this._card.dataset.id)
                 .then((res) => {
                     this._cardLike.classList.remove('elements__like_active');
                     this._buttonLike.textContent = res.likes.length;
@@ -102,7 +103,7 @@ export class Card {
                     console.log(err);
                 });
         } else {
-            API.addLike(this._card.dataset.id)
+            this._api.addLike(this._card.dataset.id)
                 .then((res) => {
                     this._cardLike.classList.add('elements__like_active');
                     this._buttonLike.textContent = res.likes.length;
@@ -128,7 +129,7 @@ export class Card {
 
     //Функция удаления карточки
     function deleteCardRemove(id) {
-    API.deleteTaskCard(id)
+        this._api.deleteTaskCard(id)
         .then(() => {
             document.querySelector(`.elements__card[data-id="${id}"]`).remove();
         })

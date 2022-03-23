@@ -68,33 +68,6 @@ function editProfile() {
     jobInput.value = profileJob.textContent;
 }
 
-
-// export class Profile {
-//     constructor({nameInput, jobInput, id}) {
-//         this._nameInput = nameInput;
-//         this._jobInput = jobInput;
-//         this._id = id;
-//
-//     }
-//
-//     getProfile() {
-//         // Открытие формы, изменение данных профиля
-//         profileEditButton.addEventListener('click', () => {
-//             this._editProfile()
-//         });
-//     }
-//
-//
-//     _editProfile(profileTitle, profileJob) {
-//         // Открываем popup
-//         openPopup(editProfilePopup);
-//
-//         // Подставляем значения из профиля
-//         profileTitle.textContent = this._nameInput;
-//         profileJob.textContent = this._jobInput;
-//     }
-// }
-
 // Добавление карточки
 showAddCardPopup.addEventListener('click', function() {
     // Очищаем форму

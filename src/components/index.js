@@ -24,10 +24,18 @@ import {
     acceptCardDelete,
     formDelete
 } from './modal.js';
-import API from './api.js';
+import Api from './api.js';
+
+export const api = new Api({
+    url: 'https://nomoreparties.co/v1/plus-cohort7', //ссылка
+    headers: {
+        authorization: '41dbe325-3fa7-4285-bba8-932cc50cf0e5', // токен
+        'Content-Type': 'application/json' //тип данных для создания
+    }
+});
 
 // Всё с сервера
-Promise.all([API.getProfile(), API.getCard()]) //Функции получения данных Профиля и карточки (возвращает результат выполнения функции fetch)
+Promise.all([api.getProfile(), api.getCard()]) //Функции получения данных Профиля и карточки (возвращает результат выполнения функции fetch)
     .then(([user, card]) => { // данные
         profileTitle.textContent = user.name;
         profileJob.textContent = user.about;

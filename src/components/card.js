@@ -1,13 +1,15 @@
 import {openPopup,} from "./utils";
 import API from './api.js';
-import Validation from "./validate";
-
 
 // Находим поля формы в DOM добавления карточки
 const cardContainer = document.querySelector('.elements__list');
 //  Находим поля формы в DOM всплывающего окна отображающего картинку
 const imagePopup = document.querySelector('.popup_image');
 const deletePopup = document.querySelector('.popup_delete');
+
+const zoomedImagePopup = document.querySelector('.popup__image');
+const imageText = document.querySelector('.popup__caption');
+
 
     //Класс добавляет готовую разметку на страницу
 export class Card {
@@ -32,11 +34,11 @@ export class Card {
     // Метод добавит данные в разметку (Подготовка карточки к публикации)
     createCard() {
         this._card = this._getElement();
+        this._cardImage = this._card.querySelector('.elements__image');
         this._cardText = this._card.querySelector('.elements__title');
         this._cardLike = this._card.querySelector('.elements__like');
-        this._cardRemove = this._card.querySelector('.elements__remove-button');
         this._buttonLike = this._card.querySelector('.elements__like-numbers');
-        this._cardImage = this._card.querySelector('.elements__image');
+        this._cardRemove = this._card.querySelector('.elements__remove-button');
         this._isLiked();
 
         //Функция удаления с чужих карточек иконки корзинки
@@ -47,14 +49,14 @@ export class Card {
         this._render();
 
         //Вызываем метод слушателей событий
-        this._setEventListeners();
+        this.setEventListeners();
         
         //Вернем карточку
         return this._card;
     }
 
     // Метод обработки слушателей событий (добавила метод)
-    _setEventListeners() {
+    setEventListeners() {
         // Добавление лайка карточке
         this._cardLike.addEventListener('click', () => {
             this._addNumbersLike();
@@ -68,7 +70,8 @@ export class Card {
 
         // При клике на карточку открыть картинку во всплывающем окне
         this._cardImage.addEventListener('click', () => {
-            this._zoomImagePopup()});
+            this._zoomImagePopup();
+        });
     }
 
     // Проверяем поставлен ли лайк
@@ -122,6 +125,7 @@ export class Card {
         imageText.textContent = this._name;
     }
 }
+
     //Функция удаления карточки
     function deleteCardRemove(id) {
     API.deleteTaskCard(id)
@@ -218,4 +222,4 @@ function addNumbersLike(evt, buttonLike, card) {
     }
 } */
 
-export {cardContainer, imagePopup, deleteCardRemove, deletePopup};
+export {cardContainer, imagePopup, deleteCardRemove, deletePopup, zoomedImagePopup, imageText};

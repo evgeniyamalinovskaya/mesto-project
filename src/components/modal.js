@@ -1,7 +1,7 @@
 import {closePopup, clearForm} from './utils.js';
-import {cardContainer, deleteCardRemove, deletePopup} from './card.js';
-import { validationConfig,} from "./index.js";
-import  Api from "./api.js";
+import {deleteCardRemove, deletePopup} from './Card.js';
+import { validationConfig} from "./index.js";
+import  Api from "./Api.js";
 
 
 //Кнопка редактирования аватарки
@@ -96,7 +96,7 @@ function saveCardForm(evt) {
     api.createTaskCard(placeInput.value, linkInput.value)
         .then ((res) => {
                 // Сохранение данных
-                cardContainer.prepend(createCard(res.name, res.link, res._id, res.likes, res.owner._id, res.owner));
+                //cardContainer.prepend(createCard(res.name, res.link, res._id, res.likes, res.owner._id, res.owner));
                 // Кнопка не активна без заполнения полей формы
                 disableButton(addCardSubmit, validationConfig);
                 // закрытие карточки

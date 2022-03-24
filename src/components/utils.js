@@ -1,4 +1,4 @@
-import { deletePopup } from "./card";
+import { deletePopup } from "./Card";
 import { validationConfig } from "./index.js"; //Удалила из строки 46,52 в консоль выводилась ошибка
 
 const buttonEscKey = 27;

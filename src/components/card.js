@@ -1,8 +1,7 @@
 import {openPopup,} from "./utils";
-import Api from './api.js';
+import Api from './Api.js';
 
 // Находим поля формы в DOM добавления карточки
-const cardContainer = document.querySelector('.elements__list');
 //  Находим поля формы в DOM всплывающего окна отображающего картинку
 const imagePopup = document.querySelector('.popup_image');
 const deletePopup = document.querySelector('.popup_delete');
@@ -13,13 +12,14 @@ const imageText = document.querySelector('.popup__caption');
 
     //Класс добавляет готовую разметку на страницу
 export class Card {
-    constructor({ name, link, _id, likes, owner }, userId) {
+    constructor({ name, link, _id, likes, owner},{handleCardClick}, userId) {
         this._api = new Api();
         this._name = name;
         this._link = link;
         this._id = _id;
         this._likes = likes;
         this._owner = owner;
+        this._handleCardClick = handleCardClick;
         this._userId = userId;
     }
 
@@ -71,7 +71,7 @@ export class Card {
 
         // При клике на карточку открыть картинку во всплывающем окне
         this._cardImage.addEventListener('click', () => {
-            this._zoomImagePopup();
+            this._handleCardClick();
         });
     }
 
@@ -114,7 +114,7 @@ export class Card {
         }
     }
     // Функция открытия картинки во всплывающем окне
-    _zoomImagePopup() {
+    /* _zoomImagePopup() {
         const zoomedImagePopup = document.querySelector('.popup__image');
         const imageText = document.querySelector('.popup__caption');
         // Открываем popup
@@ -124,7 +124,7 @@ export class Card {
         zoomedImagePopup.src = this._link;
         zoomedImagePopup.alt = this._name;
         imageText.textContent = this._name;
-    }
+    } */
 }
 
     //Функция удаления карточки
@@ -223,4 +223,4 @@ function addNumbersLike(evt, buttonLike, card) {
     }
 } */
 
-export {cardContainer, imagePopup, deleteCardRemove, deletePopup, zoomedImagePopup, imageText};
+export {imagePopup, deleteCardRemove, deletePopup, zoomedImagePopup, imageText};

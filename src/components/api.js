@@ -29,7 +29,7 @@ export default class Api {
     }
 
 //Функция получения данных Профиля и Карточки, добавления лайка, удаления лайка, удаления карточки (возвращает результат выполнения функции fetch)     
-    methodWithoutBody(way, method, id) {
+    methodWithoutBody(way, method, id = '') {
         return fetch(`${this._config.url}${way}${id}`, {  //добавляем аргумент
             method: method,
             headers: this._config.headers

@@ -45,7 +45,7 @@ const ways = {
 const getInfo = new Api(apiConfig);
 
 // Всё с сервера
-Promise.all([getInfo.methodWithoutBody(ways.profile, 'GET', ''), getInfo.methodWithoutBody(ways.cards, 'GET', '')]) //Функции получения данных Профиля и карточки (возвращает результат выполнения функции fetch)
+Promise.all([getInfo.methodWithoutBody(ways.profile, 'GET'), getInfo.methodWithoutBody(ways.cards, 'GET', '')]) //Функции получения данных Профиля и карточки (возвращает результат выполнения функции fetch)
     .then(([user, cards]) => { // данные
         profileTitle.textContent = user.name;
         profileJob.textContent = user.about;

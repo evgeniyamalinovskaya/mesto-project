@@ -2,7 +2,7 @@ import '../pages/index.css'; // добавьте импорт главного �
 
 import { clearForm, openPopup} from './utils.js'; //функции открытия и закрытия popup
 import Validator from './Validator.js';
-import { Card } from './Card.js';
+import { Card } from './Cards.js';
 import {
     imageAvatar,
     avatarButton,
@@ -27,22 +27,29 @@ import {
 import Api from './Api.js';
 import Section from './Section';
 const cardContainer ='.elements__list';
-
-export const api = new Api({
+const apiConfig = {
     url: 'https://nomoreparties.co/v1/plus-cohort7', //ссылка
     headers: {
         authorization: '41dbe325-3fa7-4285-bba8-932cc50cf0e5', // токен
         'Content-Type': 'application/json' //тип данных для создания
     }
-});
+}
+const ways = {
+    profile: '/users/me',
+    cards: '/cards',
+    cardsDelete: '/cards/',
+    cardsLikes: '/cards/likes/',
+    avatar: '/users/me/avatar'
+}
+
+const getInfo = new Api(apiConfig);
 
 // Всё с сервера
-Promise.all([api.getProfile(), api.getCard()]) //Функции получения данных Профиля и карточки (возвращает результат выполнения функции fetch)
+Promise.all([getInfo.methodWithoutBody(ways.profile, 'GET', ''), getInfo.methodWithoutBody(ways.cards, 'GET', '')]) //Функции получения данных Профиля и карточки (возвращает результат выполнения функции fetch)
     .then(([user, cards]) => { // данные
         profileTitle.textContent = user.name;
         profileJob.textContent = user.about;
         imageAvatar.src = user.avatar;
-
         const standardCards = new Section({            //Отображает все карточки
             items: cards,
             renderer: (item) => {

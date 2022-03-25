@@ -1,4 +1,4 @@
-import { deletePopup } from "./Card";
+import { deletePopup } from "./Cards";
 import { validationConfig } from "./index.js";
 
 const buttonEscKey = 27;

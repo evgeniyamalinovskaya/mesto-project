@@ -1,7 +1,4 @@
-import {closePopup, clearForm} from './utils.js';
-import {deleteCardRemove, deletePopup} from './Cards.js';
-import { validationConfig} from "./index.js";
-import  Api from "./Api.js";
+import  Api from "./Apis.js";
 
 
 //Кнопка редактирования аватарки
@@ -33,14 +30,6 @@ const addCardSubmit= document.querySelector('#add-card-submit');
 // Кнопки замены текста submit
 const buttonSaveProfile = document.querySelector('.popup__submit_save_profile');
 const formDelete = document.querySelector('form[name="form-delete"]');
-
-// export const api = new Api({
-//     url: 'https://nomoreparties.co/v1/plus-cohort7', //ссылка
-//     headers: {
-//         authorization: '41dbe325-3fa7-4285-bba8-932cc50cf0e5', // токен
-//         'Content-Type': 'application/json' //тип данных для создания
-//     }
-// });
 
 
 const apiConfig = {

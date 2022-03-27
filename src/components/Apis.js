@@ -1,20 +1,3 @@
-//Информация (ссылка, токен, группа, тип данных)
-const apiConfig = {
-    url: 'https://nomoreparties.co/v1/plus-cohort7', //ссылка
-    headers: {
-        authorization: '41dbe325-3fa7-4285-bba8-932cc50cf0e5', // токен
-        'Content-Type': 'application/json' //тип данных для создания
-    }
-}
-
-const ways = {
-    profile: '/users/me',
-    cards: '/cards',
-    cardsDelete: '/cards/',
-    cardsLikes: '/cards/likes/',
-    avatar: '/users/me/avatar'
-}
-
 export default class Api {
     constructor(config) {
         this._config = config;
@@ -29,7 +12,7 @@ export default class Api {
     }
 
 //Функция получения данных Профиля и Карточки, добавления лайка, удаления лайка, удаления карточки (возвращает результат выполнения функции fetch)     
-    methodWithoutBody(way, method, id = '') {
+    getData(way, method, id = '') {
         return fetch(`${this._config.url}${way}${id}`, {  //добавляем аргумент
             method: method,
             headers: this._config.headers
@@ -38,7 +21,7 @@ export default class Api {
     };
 
 //Функция создания Профиля, обновления (редактирования) аватарки и создания карточки (функция принимает объекты)
-    patch(way, formInfo, method) {
+    createData(way, formInfo, method) {
         /* const formAvatar = {avatar: image};
         const formInfo = {
             name: username,

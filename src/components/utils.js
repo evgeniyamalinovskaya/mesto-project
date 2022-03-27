@@ -1,7 +1,4 @@
-import { deletePopup } from "./Cards";
-import { validationConfig } from "./index.js"; //Удалила из строки 46,52 в консоль выводилась ошибка
-
-const buttonEscKey = 27;
+/* const buttonEscKey = 27;
 
 // Универсальная функция открытия всех popup
 function openPopup(popup) {
@@ -22,10 +19,10 @@ const handleEscUp = (evt) => {
     if (evt.keyCode === buttonEscKey) {
         closePopup();
     }
-};
+}; */
 
 // Универсальная функция закрытия всех popup по нажатию на esc, overlay, крестик
-function closePopup() {
+/* function closePopup() {
     const popupOpened = document.querySelector('.popup_opened');
     popupOpened.classList.remove('popup_opened');
     document.removeEventListener('keydown', handleEscUp);
@@ -33,10 +30,10 @@ function closePopup() {
     if (popupOpened.classList.contains('popup_delete')) {
         deletePopup.dataset.IdToDelete ='';
     }
-}
+} */
 
 // Функция очистки поля в форме карточки
-function clearForm(popup) {
+/* function clearForm(popup) {
     const form = popup.querySelector('form');
       if (form) {
         const errorTextList = form.querySelectorAll('.popup__error');
@@ -53,6 +50,4 @@ function clearForm(popup) {
             errorTextElement.value = "";
         });
     }
-}
-
-export {openPopup, closePopup, clearForm};
+} */

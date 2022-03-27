@@ -1,8 +1,6 @@
 import '../pages/index.css'; // добавьте импорт главного файла стилей
 
 import { clearForm, openPopup} from './utils.js'; //функции открытия и закрытия popup
-import Validator from './Validator.js';
-import { Card } from './Cards.js';
 import {
     imageAvatar,
     avatarButton,
@@ -24,28 +22,22 @@ import {
     acceptCardDelete,
     formDelete
 } from './modal.js';
-import Api from './Api.js';
-import Section from './Section';
-const cardContainer ='.elements__list';
-const apiConfig = {
-    url: 'https://nomoreparties.co/v1/plus-cohort7', //ссылка
-    headers: {
-        authorization: '41dbe325-3fa7-4285-bba8-932cc50cf0e5', // токен
-        'Content-Type': 'application/json' //тип данных для создания
-    }
-}
-const ways = {
-    profile: '/users/me',
-    cards: '/cards',
-    cardsDelete: '/cards/',
-    cardsLikes: '/cards/likes/',
-    avatar: '/users/me/avatar'
-}
 
-const getInfo = new Api(apiConfig);
+import Validator from './Validator.js';
+import Api from './Apis.js';
+import Section from './Section';
+import Card from './Card.js';
+import PopupZoomImage from './PopupZoomImage';
+
+import * as constant from './../utils/constants.js'
+
+
+
+
+const getApi = new Api(constant.apiConfig);
 
 // Всё с сервера
-Promise.all([getInfo.methodWithoutBody(ways.profile, 'GET'), getInfo.methodWithoutBody(ways.cards, 'GET', '')]) //Функции получения данных Профиля и карточки (возвращает результат выполнения функции fetch)
+Promise.all([getApi.getData(constant.ways.profile, 'GET'), getApi.getData(constant.ways.cards, 'GET')]) //Функции получения данных Профиля и карточки (возвращает результат выполнения функции fetch)
     .then(([user, cards]) => { // данные
         profileTitle.textContent = user.name;
         profileJob.textContent = user.about;
@@ -54,17 +46,49 @@ Promise.all([getInfo.methodWithoutBody(ways.profile, 'GET'), getInfo.methodWitho
             items: cards,
             renderer: (item) => {
                 const cardToCreate = new Card(item, {                   //константа создаваемой карточки с данными 
-                    handleCardClick: () => {console.log('Hi')}  //Функция на клик по карточке
-                }, user._id);
+                    handleCardClick: (name, link) => {         //Функция на клик по карточке
+                        const popupWithImage = new PopupZoomImage(constant.popupWithImage, name, link);
+                        popupWithImage.open();
+                    },  
+                }, {
+                    handleLikeClick: (card, id) => {
+                        if (card.dataset.isLiked === 'true') {
+                            getApi.getData(constant.ways.cardsLikes, 'DELETE', id)
+                                .then((res) => {
+                                    cardToCreate.deleteLike(res);
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                });
+                        } else {
+                            getApi.getData(constant.ways.cardsLikes, 'PUT', id)
+                                .then((res) => {
+                                    cardToCreate.addLike(res);
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                });
+                        }
+                    }
+                    }, user._id);
                 const cardToReturn = cardToCreate.createCard();         //Готовая карточка места
                 standardCards.addItem(cardToReturn);    // Добавить созданную карточку в контейнер
             }
-        }, cardContainer);
+        }, constant.cardContainer);
         standardCards.renderItems(); //рендерим все карточки на страницу
     })
     .catch(err => {
         console.log(err);
     });
+
+    // Вызываем функцию из валидации
+constant.forms.forEach((form) => {
+    new Validator(constant.validationConfig, form).enableValidation();
+})
+
+///
+
+
 
 //Открытие формы, изменения аватарки профиля
 avatarButton.addEventListener('click', avatarProfile);
@@ -104,22 +128,3 @@ formCard.addEventListener('submit', saveCardForm);
 
 //Удаление карточки
 formDelete.addEventListener('submit', acceptCardDelete);
-
-// Объекты валидации
-const validationConfig = {
-    formSelector: '.form',
-    inputSelector: '.popup__item',
-    inputErrorClass: 'popup__item_invalid',
-    errorClass: 'popup__error_visible',
-    buttonSelector: '.popup__submit',
-    buttonDisabledClass: 'popup__submit_disabled',
-}
-// Вызываем функцию из валидации
-const forms = Array.from(document.querySelectorAll('.form'));
-forms.forEach((form) => {
-    new Validator(validationConfig, form).enableValidation();
-})
-
-export {validationConfig}
-
-

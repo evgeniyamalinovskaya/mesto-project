@@ -1,47 +1,52 @@
-import { deletePopup } from "./Cards";
+import { deletePopup } from "./Card";
 import { validationConfig } from "./index.js";
-
-const buttonEscKey = 27;
 
 export default class Popup {
     constructor(popupSelector) {
         this._popup = document.querySelector(popupSelector);
+        this._closeButton = this._popup.querySelector('.popup__close-button')
     }
 
 // Универсальная функция открытия всех popup
-    openPopup() {
+    open() {
         this._popup.classList.add('popup_opened');
-        document.addEventListener('keydown', this._handleEscUp);
-        this._popup.addEventListener('mousedown', this._handleClickOverlay);
+        this.setEventListeners();
     }
 
 //Функция на overlay
     _handleClickOverlay = (evt) => {
-        if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close-button')) {
-            this.closePopup(this._popup);
+        if (evt.target.classList.contains('popup')) {
+            this.close(this._popup);
         }
     };
 
 //Функция на esc
-    _handleEscUp = (evt) => {
-        if (evt.keyCode === buttonEscKey) {
-            this.closePopup(this._popup);
+    _handleEscClose = (evt) => {
+        if (evt.key === 'Escape') {
+            this.close(this._popup);
         }
     };
 
+//Функция закрытия попапа по иконке
+    setEventListeners() {
+        document.addEventListener('keydown', this._handleEscClose);
+        this._popup.addEventListener('mousedown', this._handleClickOverlay);
+        this._closeButton.addEventListener('click', this.close);
+    }
+
 // Универсальная функция закрытия всех popup по нажатию на esc, overlay, крестик
-    closePopup() {
+    close = () => {
         this._popup.classList.remove('popup_opened');
-        document.removeEventListener('keydown', this._handleEscUp);
+        document.removeEventListener('keydown', this._handleEscClose);
         this._popup.removeEventListener('mousedown', this._handleClickOverlay);
-        if (this._popup.classList.contains('popup_delete')) {
+        /* if (this._popup.classList.contains('popup_delete')) {
             deletePopup.dataset.IdToDelete = '';
-        }
+        } */
     }
 }
 
 // Функция очистки поля в форме карточки
-    function clearForm(popup) {
+/*     function clearForm(popup) {
     const form = popup.querySelector('form');
     if (form) {
         const errorTextList = form.querySelectorAll('.popup__error');
@@ -58,4 +63,4 @@ export default class Popup {
             errorTextElement.value = "";
         });
     }
-}
+} */

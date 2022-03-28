@@ -30,18 +30,26 @@ import Card from './Card.js';
 import PopupZoomImage from './PopupZoomImage';
 
 import * as constant from './../utils/constants.js'
-
-
+import UserInfo from "./UserInfo";
 
 
 const getApi = new Api(constant.apiConfig);
 
 // Всё с сервера
 Promise.all([getApi.getData(constant.ways.profile, 'GET'), getApi.getData(constant.ways.cards, 'GET')]) //Функции получения данных Профиля и карточки (возвращает результат выполнения функции fetch)
-    .then(([user, cards]) => { // данные
-        profileTitle.textContent = user.name;
-        profileJob.textContent = user.about;
-        imageAvatar.src = user.avatar;
+    .then(([user, cards]) => {
+       const profileInfo = new UserInfo ({      //
+           user,
+           nameInput,
+           jobInput,
+           imageAvatar
+       });
+        profileInfo.setUserInfo();
+        profileInfo.setUserAvatar();
+
+        // profileTitle.textContent = user.name; // данные
+        // profileJob.textContent = user.about;
+        // imageAvatar.src = user.avatar;
         const standardCards = new Section({            //Отображает все карточки
             items: cards,
             renderer: (item) => {
@@ -97,7 +105,7 @@ formAvatar.addEventListener('submit', saveAvatarForm);
 
 function avatarProfile() {
     // Очищаем форму
-    clearForm(avatarChangeProfile);
+    //clearForm(avatarChangeProfile);
     // Открываем popup
     openPopup(avatarChangeProfile);
 }
@@ -119,7 +127,7 @@ function editProfile() {
 // Добавление карточки
 showAddCardPopup.addEventListener('click', function() {
     // Очищаем форму
-    clearForm(addCardPopup);
+    //clearForm(addCardPopup);
     // Открываем popup
     openPopup(addCardPopup);
 });

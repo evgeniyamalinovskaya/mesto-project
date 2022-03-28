@@ -1,7 +1,16 @@
+import {formAvatar} from "../components/modal";
+
 export const forms = Array.from(document.querySelectorAll('.form'));
 export const cardContainer ='.elements__list';
 export const deletePopup = document.querySelector('.popup_delete');
-export const popupWithImage = '.popup_image'
+export const popupWithImage = '.popup_image';
+
+// Переменные popup редактирования профиля
+const formElement = document.querySelector('form[name="form-info"]');
+export const nameInput = formElement.querySelector('input[name="username"]');
+export const jobInput = formElement.querySelector('input[name="about"]');
+// Переменная popup аватара
+export const imageAvatar = document.querySelector('.profile__avatar-image');
 
 export const ways = {
     profile: '/users/me',

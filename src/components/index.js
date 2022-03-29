@@ -1,6 +1,6 @@
 import '../pages/index.css'; // добавьте импорт главного файла стилей
 
-import { clearForm, openPopup} from './utils.js'; //функции открытия и закрытия popup
+/* import { clearForm, openPopup} from './utils.js'; */ //функции открытия и закрытия popup
 import {
     imageAvatar,
     avatarButton,
@@ -28,7 +28,7 @@ import Api from './Apis.js';
 import Section from './Section';
 import Card from './Card.js';
 import PopupZoomImage from './PopupZoomImage';
-
+import PopupWithForm from './PopupWithForm';
 import * as constant from './../utils/constants.js'
 import UserInfo from "./UserInfo";
 
@@ -38,18 +38,10 @@ const getApi = new Api(constant.apiConfig);
 // Всё с сервера
 Promise.all([getApi.getData(constant.ways.profile, 'GET'), getApi.getData(constant.ways.cards, 'GET')]) //Функции получения данных Профиля и карточки (возвращает результат выполнения функции fetch)
     .then(([user, cards]) => {
-       const profileInfo = new UserInfo ({      //
-           user,
-           nameInput,
-           jobInput,
-           imageAvatar
-       });
+       const profileInfo = new UserInfo (constant.selectors, user);  //Отображает данные профиля
         profileInfo.setUserInfo();
         profileInfo.setUserAvatar();
 
-        // profileTitle.textContent = user.name; // данные
-        // profileJob.textContent = user.about;
-        // imageAvatar.src = user.avatar;
         const standardCards = new Section({            //Отображает все карточки
             items: cards,
             renderer: (item) => {
@@ -107,7 +99,7 @@ function avatarProfile() {
     // Очищаем форму
     //clearForm(avatarChangeProfile);
     // Открываем popup
-    openPopup(avatarChangeProfile);
+    //openPopup(avatarChangeProfile);
 }
 
 // Открытие формы, изменение данных профиля
@@ -117,7 +109,7 @@ formElement.addEventListener('submit', saveProfileForm);
 
 function editProfile() {
     // Открываем popup
-    openPopup(editProfilePopup);
+    //openPopup(editProfilePopup);
 
     // Подставляем значения из профиля
     nameInput.value = profileTitle.textContent;
@@ -129,7 +121,7 @@ showAddCardPopup.addEventListener('click', function() {
     // Очищаем форму
     //clearForm(addCardPopup);
     // Открываем popup
-    openPopup(addCardPopup);
+    //openPopup(addCardPopup);
 });
 
 formCard.addEventListener('submit', saveCardForm);

@@ -1,30 +1,33 @@
 // Отвечает за управление информацией о пользователе на странице
 export default class UserInfo {
-    constructor(nameInput, jobInput, imageAvatar) {
-        this.nameInput = nameInput;
-        this.jobInput = jobInput;
-        this.avatar = imageAvatar;
+    constructor({profileTitle, profileJob, profileAvatar}, {name, about, avatar}) {
+        this._profileTitle = document.querySelector(profileTitle);
+        this._profileJob = document.querySelector(profileJob);
+        this._profileAvatar = document.querySelector(profileAvatar);
+        this._name = name;
+        this._about = about;
+        this._avatar = avatar
     }
 
 //Метод возвращает объект с данными пользователя
     getUserInfo() {
         return {
-           name: this.nameInput.textContent,
-           about:this.jobInput.textContent,
-           avatar: this.avatar
-       }
+            // Возвращает значения из разметки(профиля)
+            name: this._profileTitle.textContent,
+            about: this._profileJob.textContent,
+            avatar: this._profileAvatar.src
+        }
     }
 
 //Метод принимает новые данные пользователя, отправляет их на сервер и добавляет их на страницу
-    setUserInfo() {
-        // Подставляем значения из профиля
-        this.nameInput.textContent = this.nameInput;
-        this.jobInput.textContent = this.jobInput;
-        this._id = _id;
+    setUserInfo = () => {
+        //Принимает новые значения
+        this._profileTitle.textContent = this._name;
+        this._profileJob.textContent = this._about;   
     }
 
     setUserAvatar = () => {
-        this.avatar.src = this.avatar;
+        this._profileAvatar.src = this._avatar;
     };
 }
 

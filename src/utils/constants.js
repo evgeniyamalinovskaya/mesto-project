@@ -9,8 +9,13 @@ export const popupWithImage = '.popup_image';
 const formElement = document.querySelector('form[name="form-info"]');
 export const nameInput = formElement.querySelector('input[name="username"]');
 export const jobInput = formElement.querySelector('input[name="about"]');
-// Переменная popup аватара
-export const imageAvatar = document.querySelector('.profile__avatar-image');
+
+//Селекторы разметки на странице
+export const selectors = {
+    profileTitle: '.profile__title',
+    profileJob: '.profile__subtitle',
+    profileAvatar: '.profile__avatar-image'    
+}
 
 export const ways = {
     profile: '/users/me',

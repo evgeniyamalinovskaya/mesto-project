@@ -80,10 +80,12 @@ export default class Card {
     deleteLike(res) {
         this._cardLike.classList.remove('elements__like_active');
         this._buttonLike.textContent = res.likes.length;
+        this._card.dataset.isLiked = 'false';
     }
     addLike(res) {
         this._cardLike.classList.add('elements__like_active');
-        this._buttonLike.textContent = res.likes.length;  
+        this._buttonLike.textContent = res.likes.length;
+        this._card.dataset.isLiked = 'true';
     }
 }
 

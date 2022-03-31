@@ -36,7 +36,7 @@ import UserInfo from "./UserInfo";
 const getApi = new Api(constant.apiConfig);
 const userApi = getApi.getData(constant.ways.profile, 'GET');
 const cardsApi = getApi.getData(constant.ways.cards, 'GET');
-const profileInfo = new UserInfo (constant.selectors);  //Отображает данные профиля
+const profileInfo = new UserInfo (constant.selectors);  //Класс профиля
 // Вызываем функцию из валидации
 const formInfo = new Validator(constant.validationConfig, constant.formInfo);
 const formCard = new Validator(constant.validationConfig, constant.formCard);
@@ -44,6 +44,7 @@ const formAvatar = new Validator(constant.validationConfig, constant.formAvatar)
 const forms = [formInfo, formCard, formAvatar];
 forms.forEach(form => form.enableValidation());
 
+const popupWithImage = new PopupZoomImage(constant.popupWithImage); //Класс попапа с картинкой
 
 //Функция на изменения редактирования профиля
 const profilePopup = new PopupWithForm(constant.popups.profile, {
@@ -70,35 +71,21 @@ const cardAddPopup = new PopupWithForm(constant.popups.card, {
                 renderer: (item) => {
                     const cardToCreate = new Card(item, {                   //константа создаваемой карточки с данными 
                         handleCardClick: (name, link) => {         //Функция на клик по карточке
-                            const popupWithImage = new PopupZoomImage(constant.popupWithImage, name, link);
-                            popupWithImage.open();
+                            popupWithImage.open(name, link);
                         },  
                     }, {
-                        handleLikeClick: (card, id) => {
-                            if (card.dataset.isLiked === 'true') {
-                                getApi.getData(constant.ways.cardsLikes, 'DELETE', id)
-                                    .then((res) => {
-                                        cardToCreate.deleteLike(res);
-                                    })
-                                    .catch(err => {
-                                        console.log(err);
-                                    });
-                            } else {
-                                getApi.getData(constant.ways.cardsLikes, 'PUT', id)
-                                    .then((res) => {
-                                        cardToCreate.addLike(res);
-                                    })
-                                    .catch(err => {
-                                        console.log(err);
-                                    });
-                            }
-                        }
+                        handleLikeClick: (card, id) => {handleLikeClick(card, id, cardToCreate)}
                         }, data.owner._id);
                     const cardToReturn = cardToCreate.createCard();         //Готовая карточка места
                     newCard.addItem(cardToReturn);
                 }
             }, constant.cardContainer)
-            newCard.renderItems()
+            newCard.renderItems();
+            cardAddPopup.close();
+            formCard.disableButton();
+        })
+        .finally(() => {
+            cardAddPopup.setSubmitButtonText('Создать');
         })
     }
 });
@@ -118,6 +105,7 @@ const avatarPopup = new PopupWithForm(constant.popups.avatar, {
     }
 });
 
+//Назначаем кнопки
 constant.buttons.profile.addEventListener('click', () => {
     profilePopup.open();
 
@@ -136,29 +124,10 @@ Promise.all([userApi, cardsApi]) //Функции получения данны�
             renderer: (item) => {
                 const cardToCreate = new Card(item, {                   //константа создаваемой карточки с данными 
                     handleCardClick: (name, link) => {         //Функция на клик по карточке
-                        const popupWithImage = new PopupZoomImage(constant.popupWithImage, name, link);
-                        popupWithImage.open();
+                        popupWithImage.open(name, link);
                     },  
                 }, {
-                    handleLikeClick: (card, id) => {
-                        if (card.dataset.isLiked === 'true') {
-                            getApi.getData(constant.ways.cardsLikes, 'DELETE', id)
-                                .then((res) => {
-                                    cardToCreate.deleteLike(res);
-                                })
-                                .catch(err => {
-                                    console.log(err);
-                                });
-                        } else {
-                            getApi.getData(constant.ways.cardsLikes, 'PUT', id)
-                                .then((res) => {
-                                    cardToCreate.addLike(res);
-                                })
-                                .catch(err => {
-                                    console.log(err);
-                                });
-                        }
-                    }
+                    handleLikeClick: (card, id) => {handleLikeClick(card, id, cardToCreate)}
                     }, user._id);
                 const cardToReturn = cardToCreate.createCard();         //Готовая карточка места
                 standardCards.addItem(cardToReturn);    // Добавить созданную карточку в контейнер
@@ -169,6 +138,27 @@ Promise.all([userApi, cardsApi]) //Функции получения данны�
     .catch(err => {
         console.log(err);
     });
+
+    //Функция для постановки лайка
+    const handleLikeClick = (card, id, cardToCreate) => {
+        if (card.dataset.isLiked === 'true') {
+            getApi.getData(constant.ways.cardsLikes, 'DELETE', id)
+                .then((res) => {
+                    cardToCreate.deleteLike(res);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        } else {
+            getApi.getData(constant.ways.cardsLikes, 'PUT', id)
+                .then((res) => {
+                    cardToCreate.addLike(res);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        }
+    }
 
 
 ///

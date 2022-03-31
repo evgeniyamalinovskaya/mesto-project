@@ -1,7 +1,7 @@
 import '../pages/index.css'; // добавьте импорт главного файла стилей
 
 /* import { clearForm, openPopup} from './utils.js'; */ //функции открытия и закрытия popup
-import {
+/* import {
     imageAvatar,
     avatarButton,
     avatarChangeProfile,
@@ -21,7 +21,7 @@ import {
     saveProfileForm,
     acceptCardDelete,
     formDelete
-} from './modal.js';
+} from './modal.js'; */
 
 import Validator from './Validator.js';
 import Api from './Apis.js';
@@ -34,13 +34,102 @@ import UserInfo from "./UserInfo";
 
 
 const getApi = new Api(constant.apiConfig);
+const userApi = getApi.getData(constant.ways.profile, 'GET');
+const cardsApi = getApi.getData(constant.ways.cards, 'GET');
+const profileInfo = new UserInfo (constant.selectors);  //Отображает данные профиля
+// Вызываем функцию из валидации
+const formInfo = new Validator(constant.validationConfig, constant.formInfo);
+const formCard = new Validator(constant.validationConfig, constant.formCard);
+const formAvatar = new Validator(constant.validationConfig, constant.formAvatar);
+const forms = [formInfo, formCard, formAvatar];
+forms.forEach(form => form.enableValidation());
+
+
+//Функция на изменения редактирования профиля
+const profilePopup = new PopupWithForm(constant.popups.profile, {
+    submit: (data) => {
+        profilePopup.setSubmitButtonText('Сохранение...');
+        getApi.createData(constant.ways.profile, data, 'PATCH')
+        .then((data) => {
+            profileInfo.setUserInfo(data);
+            profilePopup.close();
+        })
+        .finally(() => {
+            profilePopup.setSubmitButtonText('Сохранить');
+        })
+    }
+});
+// Функция сохранения карточки
+const cardAddPopup = new PopupWithForm(constant.popups.card, {
+    submit: (data) => {
+        cardAddPopup.setSubmitButtonText('Сохранение...');
+        getApi.createData(constant.ways.cards, data, 'POST')
+        .then((data) => {
+            const newCard = new Section({
+                items: [data],
+                renderer: (item) => {
+                    const cardToCreate = new Card(item, {                   //константа создаваемой карточки с данными 
+                        handleCardClick: (name, link) => {         //Функция на клик по карточке
+                            const popupWithImage = new PopupZoomImage(constant.popupWithImage, name, link);
+                            popupWithImage.open();
+                        },  
+                    }, {
+                        handleLikeClick: (card, id) => {
+                            if (card.dataset.isLiked === 'true') {
+                                getApi.getData(constant.ways.cardsLikes, 'DELETE', id)
+                                    .then((res) => {
+                                        cardToCreate.deleteLike(res);
+                                    })
+                                    .catch(err => {
+                                        console.log(err);
+                                    });
+                            } else {
+                                getApi.getData(constant.ways.cardsLikes, 'PUT', id)
+                                    .then((res) => {
+                                        cardToCreate.addLike(res);
+                                    })
+                                    .catch(err => {
+                                        console.log(err);
+                                    });
+                            }
+                        }
+                        }, data.owner._id);
+                    const cardToReturn = cardToCreate.createCard();         //Готовая карточка места
+                    newCard.addItem(cardToReturn);
+                }
+            }, constant.cardContainer)
+            newCard.renderItems()
+        })
+    }
+});
+//Функция сохранения новой аватарки профиля
+const avatarPopup = new PopupWithForm(constant.popups.avatar, {
+    submit: (data) => {
+        avatarPopup.setSubmitButtonText('Сохранение...');
+        getApi.createData(constant.ways.avatar, data, 'PATCH')
+        .then((data) => {
+            profileInfo.setUserAvatar(data);
+            avatarPopup.close();
+            formAvatar.disableButton();
+        })
+        .finally(() => {
+            profilePopup.setSubmitButtonText('Сохранить');
+        })
+    }
+});
+
+constant.buttons.profile.addEventListener('click', () => {
+    profilePopup.open();
+
+});
+constant.buttons.card.addEventListener('click', () => {cardAddPopup.open()});
+constant.buttons.avatar.addEventListener('click', () => {avatarPopup.open()});
 
 // Всё с сервера
-Promise.all([getApi.getData(constant.ways.profile, 'GET'), getApi.getData(constant.ways.cards, 'GET')]) //Функции получения данных Профиля и карточки (возвращает результат выполнения функции fetch)
+Promise.all([userApi, cardsApi]) //Функции получения данных Профиля и карточки (возвращает результат выполнения функции fetch)
     .then(([user, cards]) => {
-       const profileInfo = new UserInfo (constant.selectors, user);  //Отображает данные профиля
-        profileInfo.setUserInfo();
-        profileInfo.setUserAvatar();
+        profileInfo.setUserInfo(user);
+        profileInfo.setUserAvatar(user);
 
         const standardCards = new Section({            //Отображает все карточки
             items: cards,
@@ -81,16 +170,12 @@ Promise.all([getApi.getData(constant.ways.profile, 'GET'), getApi.getData(consta
         console.log(err);
     });
 
-    // Вызываем функцию из валидации
-constant.forms.forEach((form) => {
-    new Validator(constant.validationConfig, form).enableValidation();
-})
 
 ///
 
 
 
-//Открытие формы, изменения аватарки профиля
+/* //Открытие формы, изменения аватарки профиля
 avatarButton.addEventListener('click', avatarProfile);
 
 formAvatar.addEventListener('submit', saveAvatarForm);
@@ -127,4 +212,4 @@ showAddCardPopup.addEventListener('click', function() {
 formCard.addEventListener('submit', saveCardForm);
 
 //Удаление карточки
-formDelete.addEventListener('submit', acceptCardDelete);
+formDelete.addEventListener('submit', acceptCardDelete); */

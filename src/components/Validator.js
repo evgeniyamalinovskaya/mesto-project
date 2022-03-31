@@ -84,9 +84,6 @@ export default class Validator {
 
 // Функция выбирает все формы на странице и убираем событие ее отправки
     enableValidation() {
-        this._form.addEventListener('submit', evt => {
-            evt.preventDefault();
-        });
         this._setEventListeners();
     };
 }

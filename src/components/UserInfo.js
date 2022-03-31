@@ -1,12 +1,10 @@
 // Отвечает за управление информацией о пользователе на странице
 export default class UserInfo {
-    constructor({profileTitle, profileJob, profileAvatar}, {name, about, avatar}) {
+    constructor({profileTitle, profileJob, profileAvatar}) {
         this._profileTitle = document.querySelector(profileTitle);
         this._profileJob = document.querySelector(profileJob);
         this._profileAvatar = document.querySelector(profileAvatar);
-        this._name = name;
-        this._about = about;
-        this._avatar = avatar
+        
     }
 
 //Метод возвращает объект с данными пользователя
@@ -20,13 +18,16 @@ export default class UserInfo {
     }
 
 //Метод принимает новые данные пользователя, отправляет их на сервер и добавляет их на страницу
-    setUserInfo = () => {
+    setUserInfo = ({name, about}) => {
         //Принимает новые значения
+        this._name = name;
+        this._about = about;
         this._profileTitle.textContent = this._name;
         this._profileJob.textContent = this._about;   
     }
 
-    setUserAvatar = () => {
+    setUserAvatar = ({avatar}) => {
+        this._avatar = avatar;
         this._profileAvatar.src = this._avatar;
     };
 }

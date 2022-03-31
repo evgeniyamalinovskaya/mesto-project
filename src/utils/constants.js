@@ -1,14 +1,23 @@
-import {formAvatar} from "../components/modal";
-
-export const forms = Array.from(document.querySelectorAll('.form'));
+export const formInfo = document.querySelector('#form-info');
+export const formCard = document.querySelector('#form-card');
+export const formAvatar = document.querySelector('#form-avatar');
 export const cardContainer ='.elements__list';
 export const deletePopup = document.querySelector('.popup_delete');
 export const popupWithImage = '.popup_image';
 
-// Переменные popup редактирования профиля
-const formElement = document.querySelector('form[name="form-info"]');
-export const nameInput = formElement.querySelector('input[name="username"]');
-export const jobInput = formElement.querySelector('input[name="about"]');
+//Селекторы кнопок как элемент разметки
+export const buttons = {
+    profile: document.querySelector('.profile__edit-button'),
+    card: document.querySelector('.profile__add-button'),
+    avatar: document.querySelector('.profile__avatar-button')
+}
+//Переменные попапов
+export const popups = {
+    profile: '.popup_profile',
+    card: '.popup_card',
+    avatar: '.popup_avatar',
+    delete: '.popup_delete'
+}
 
 //Селекторы разметки на странице
 export const selectors = {

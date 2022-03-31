@@ -4,7 +4,8 @@ export default class PopupWithForm extends Popup{
     constructor(popupSelector, {submit}) {
         super (popupSelector);
         this._submit = submit;
-        this._form = this._popup.querySelector('.form')
+        this._form = this._popup.querySelector('.form');
+        this._submitButton = this._popup.querySelector('.popup__submit')
     }
 
     //Для сбора данных из полей создадим приватный метод
@@ -28,15 +29,17 @@ export default class PopupWithForm extends Popup{
         super.setEventListeners();
         this._form.addEventListener('submit', (evt) => {
             evt.preventDefault();
-          
             // передадим ей объект — результат работы _getInputValues
             this._submit(this._getInputValues());
-            this.close();
         });
     }
 
-    close() {
+    close = () => {
         super.close();
         this._form.reset();
+    }
+     // Вызов функции изменения текста
+    setSubmitButtonText(content) {
+        this._submitButton.textContent = content;
     }
 }

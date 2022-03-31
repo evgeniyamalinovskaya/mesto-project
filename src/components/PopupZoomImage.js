@@ -17,4 +17,7 @@ export default class PopupZoomImage extends Popup {
         this._zoomedImagePopup.alt = this._name;
         this._zoomedImagePopup.src = this._link;
     }
+    close = () => {
+        super.close();
+    }
 }

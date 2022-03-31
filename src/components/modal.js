@@ -1,6 +1,5 @@
-import  Api from "./Apis.js";
 
-
+/* 
 //Кнопка редактирования аватарки
 const avatarButton = document.querySelector('.profile__avatar-button');
 const avatarChangeProfile = document.querySelector('.popup_avatar');
@@ -17,7 +16,7 @@ const profileTitle = document.querySelector('.profile__title');
 const profileJob = document.querySelector('.profile__subtitle');
 // Форму в DOM редактирования профиля
 const formElement = document.querySelector('form[name="form-info"]');
-const nameInput = formElement.querySelector('input[name="username"]');
+const nameInput = formElement.querySelector('input[name="name"]');
 const jobInput = formElement.querySelector('input[name="about"]');
 // Кнопки добавление карточек
 const addCardPopup = document.querySelector('.popup_card');
@@ -154,4 +153,4 @@ export {
     saveProfileForm,
     acceptCardDelete, 
     formDelete
-}
+} */

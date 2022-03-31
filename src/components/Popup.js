@@ -8,7 +8,7 @@ export default class Popup {
     }
 
 // Универсальная функция открытия всех popup
-    open() {
+    open () {
         this._popup.classList.add('popup_opened');
         this.setEventListeners();
     }
@@ -35,7 +35,7 @@ export default class Popup {
     }
 
 // Универсальная функция закрытия всех popup по нажатию на esc, overlay, крестик
-    close = () => {
+    close() {
         this._popup.classList.remove('popup_opened');
         document.removeEventListener('keydown', this._handleEscClose);
         this._popup.removeEventListener('mousedown', this._handleClickOverlay);

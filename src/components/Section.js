@@ -6,12 +6,15 @@ export default class Section{
         
         this._container = document.querySelector(selector);
       }
-    
+      //Функция, которая отвечает за создание и отрисовку данных на странице
       renderItems() {
         this._renderedItems.forEach(item => {this._renderer(item)})
       }
-    
-      addItem(element) {
+      //Функция, которая принимает DOM - элемент и добавляет его в контейнер
+      appendItem(element) {
         this._container.append(element);
+      }
+      prependItem(element) {
+        this._container.prepend(element);
       }
 }

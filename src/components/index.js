@@ -46,24 +46,26 @@ forms.forEach(form => form.enableValidation());
 
 const popupWithImage = new PopupZoomImage(constant.popupWithImage); //Класс попапа с картинкой
 
-//Функция на изменения редактирования профиля
+//Функция на изменения редактирования профиля 
 const profilePopup = new PopupWithForm(constant.popups.profile, {
     submit: (data) => {
         profilePopup.setSubmitButtonText('Сохранение...');
         getApi.createData(constant.ways.profile, data, 'PATCH')
         .then((data) => {
-            profileInfo.setUserInfo(data);
+            profileInfo.setUserInfo(data);            
             profilePopup.close();
         })
         .finally(() => {
             profilePopup.setSubmitButtonText('Сохранить');
         })
     }
+    }, {
+    deleteErrors: (input) => {formInfo.hideInputError(input)}
 });
 // Функция сохранения карточки
 const cardAddPopup = new PopupWithForm(constant.popups.card, {
     submit: (data) => {
-        cardAddPopup.setSubmitButtonText('Сохранение...');
+        cardAddPopup.setSubmitButtonText('Созданение...');
         getApi.createData(constant.ways.cards, data, 'POST')
         .then((data) => {
             const newCard = new Section({
@@ -77,7 +79,7 @@ const cardAddPopup = new PopupWithForm(constant.popups.card, {
                         handleLikeClick: (card, id) => {handleLikeClick(card, id, cardToCreate)}
                         }, data.owner._id);
                     const cardToReturn = cardToCreate.createCard();         //Готовая карточка места
-                    newCard.addItem(cardToReturn);
+                    newCard.prependItem(cardToReturn);
                 }
             }, constant.cardContainer)
             newCard.renderItems();
@@ -88,6 +90,8 @@ const cardAddPopup = new PopupWithForm(constant.popups.card, {
             cardAddPopup.setSubmitButtonText('Создать');
         })
     }
+    }, {
+    deleteErrors: (input) => {formCard.hideInputError(input)}
 });
 //Функция сохранения новой аватарки профиля
 const avatarPopup = new PopupWithForm(constant.popups.avatar, {
@@ -103,14 +107,20 @@ const avatarPopup = new PopupWithForm(constant.popups.avatar, {
             profilePopup.setSubmitButtonText('Сохранить');
         })
     }
+    }, {
+    deleteErrors: (input) => {formAvatar.hideInputError(input)}
 });
 
 //Назначаем кнопки
+//Открытие профиля
 constant.buttons.profile.addEventListener('click', () => {
     profilePopup.open();
-
+    profilePopup.setInputValues(profileInfo.getUserInfo());
+    formInfo.enableButton();
 });
+//Открытие карточек
 constant.buttons.card.addEventListener('click', () => {cardAddPopup.open()});
+//Открытие аватарки
 constant.buttons.avatar.addEventListener('click', () => {avatarPopup.open()});
 
 // Всё с сервера
@@ -130,7 +140,7 @@ Promise.all([userApi, cardsApi]) //Функции получения данны�
                     handleLikeClick: (card, id) => {handleLikeClick(card, id, cardToCreate)}
                     }, user._id);
                 const cardToReturn = cardToCreate.createCard();         //Готовая карточка места
-                standardCards.addItem(cardToReturn);    // Добавить созданную карточку в контейнер
+                standardCards.appendItem(cardToReturn);    // Добавить созданную карточку в контейнер
             }
         }, constant.cardContainer);
         standardCards.renderItems(); //рендерим все карточки на страницу
@@ -139,67 +149,23 @@ Promise.all([userApi, cardsApi]) //Функции получения данны�
         console.log(err);
     });
 
-    //Функция для постановки лайка
-    const handleLikeClick = (card, id, cardToCreate) => {
-        if (card.dataset.isLiked === 'true') {
-            getApi.getData(constant.ways.cardsLikes, 'DELETE', id)
-                .then((res) => {
-                    cardToCreate.deleteLike(res);
-                })
-                .catch(err => {
-                    console.log(err);
-                });
-        } else {
-            getApi.getData(constant.ways.cardsLikes, 'PUT', id)
-                .then((res) => {
-                    cardToCreate.addLike(res);
-                })
-                .catch(err => {
-                    console.log(err);
-                });
-        }
+//Функция для постановки лайка
+const handleLikeClick = (card, id, cardToCreate) => {
+    if (card.dataset.isLiked === 'true') {
+        getApi.getData(constant.ways.cardsLikes, 'DELETE', id)
+            .then((res) => {
+                cardToCreate.deleteLike(res);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    } else {
+        getApi.getData(constant.ways.cardsLikes, 'PUT', id)
+            .then((res) => {
+                cardToCreate.addLike(res);
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
-
-
-///
-
-
-
-/* //Открытие формы, изменения аватарки профиля
-avatarButton.addEventListener('click', avatarProfile);
-
-formAvatar.addEventListener('submit', saveAvatarForm);
-
-function avatarProfile() {
-    // Очищаем форму
-    //clearForm(avatarChangeProfile);
-    // Открываем popup
-    //openPopup(avatarChangeProfile);
 }
-
-// Открытие формы, изменение данных профиля
-profileEditButton.addEventListener('click', editProfile);
-
-formElement.addEventListener('submit', saveProfileForm);
-
-function editProfile() {
-    // Открываем popup
-    //openPopup(editProfilePopup);
-
-    // Подставляем значения из профиля
-    nameInput.value = profileTitle.textContent;
-    jobInput.value = profileJob.textContent;
-}
-
-// Добавление карточки
-showAddCardPopup.addEventListener('click', function() {
-    // Очищаем форму
-    //clearForm(addCardPopup);
-    // Открываем popup
-    //openPopup(addCardPopup);
-});
-
-formCard.addEventListener('submit', saveCardForm);
-
-//Удаление карточки
-formDelete.addEventListener('submit', acceptCardDelete); */

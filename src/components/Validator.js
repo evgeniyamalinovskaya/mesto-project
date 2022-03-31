@@ -5,7 +5,7 @@ export default class Validator {
     }
 
 //Функция скрывает элемент ошибки
-    _hideInputError (inputElement) {
+    hideInputError (inputElement) {
         this._hideInputElement(inputElement);
         this._hideErrorElement();
     };
@@ -33,7 +33,7 @@ export default class Validator {
         this._errorElement = this._form.querySelector(`#error-${inputElement.id}`);
 
         if (inputElement.validity.valid) {
-            this._hideInputError(inputElement); //скрываем элемент ошибки
+            this.hideInputError(inputElement); //скрываем элемент ошибки
         } else {
             this._showInputError(inputElement, inputElement.validationMessage) //показываем элемент ошибки
         }
@@ -46,7 +46,7 @@ export default class Validator {
     };
 
 //Функция активности кнопки submit
-    _enableButton () {
+    enableButton () {
         this._buttonElement.classList.remove(this._config.buttonDisabledClass);
         this._buttonElement.disable = false;
     };
@@ -65,7 +65,7 @@ export default class Validator {
         if (this._hasInvalidInput()) {
             this.disableButton();
         } else {
-            this._enableButton();
+            this.enableButton();
         }
     };
 

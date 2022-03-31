@@ -12,8 +12,7 @@ export default class UserInfo {
         return {
             // Возвращает значения из разметки(профиля)
             name: this._profileTitle.textContent,
-            about: this._profileJob.textContent,
-            avatar: this._profileAvatar.src
+            about: this._profileJob.textContent
         }
     }
 

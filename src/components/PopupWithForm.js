@@ -1,17 +1,18 @@
 import Popup from "./Popup";
 
 export default class PopupWithForm extends Popup{
-    constructor(popupSelector, {submit}) {
+    constructor(popupSelector, {submit}, {deleteErrors}) {
         super (popupSelector);
         this._submit = submit;
         this._form = this._popup.querySelector('.form');
-        this._submitButton = this._popup.querySelector('.popup__submit')
+        this._submitButton = this._popup.querySelector('.popup__submit');
+        this._inputList = this._popup.querySelectorAll('.popup__item');
+        this._deleteErrors = deleteErrors;
     }
 
     //Для сбора данных из полей создадим приватный метод
     _getInputValues() {
          // достаём все элементы полей
-        this._inputList = this._popup.querySelectorAll('.popup__item');
 
         // создаём пустой объект
         this._formValues = {};
@@ -37,9 +38,20 @@ export default class PopupWithForm extends Popup{
     close = () => {
         super.close();
         this._form.reset();
+        this._inputList.forEach((input) => {
+            this._deleteErrors(input);
+        })
     }
      // Вызов функции изменения текста
     setSubmitButtonText(content) {
         this._submitButton.textContent = content;
     }
+    //Выбираем все инпуты и добавляем в объек значения из разметки(профиля)
+    setInputValues(getData) {
+        this._inputList.forEach((item) => {
+            item.value = getData[item.id];
+        })
+    }
+
+
 }

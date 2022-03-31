@@ -6,8 +6,8 @@ export default class Card {
         this._id = _id;
         this._likes = likes;
         this._owner = owner;
-        this._handleCardClick = handleCardClick;
-        this._handleLikeClick = handleLikeClick;
+        this._handleCardClick = handleCardClick;    //открытие попапа с картинкой
+        this._handleLikeClick = handleLikeClick;    //нажатие на лайк
         this._userId = userId;
     }
 

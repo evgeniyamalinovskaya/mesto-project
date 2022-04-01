@@ -14,7 +14,10 @@ import UserInfo from "./UserInfo";
 const getApi = new Api(constant.apiConfig);
 const userApi = getApi.getData(constant.ways.profile, 'GET');
 const cardsApi = getApi.getData(constant.ways.cards, 'GET');
-const profileInfo = new UserInfo (constant.selectors);  //Класс профиля
+
+//Класс профиля
+const profileInfo = new UserInfo (constant.selectors); 
+
 // Вызываем функцию из валидации
 const formInfo = new Validator(constant.validationConfig, constant.formInfo);
 const formCard = new Validator(constant.validationConfig, constant.formCard);
@@ -22,7 +25,8 @@ const formAvatar = new Validator(constant.validationConfig, constant.formAvatar)
 const forms = [formInfo, formCard, formAvatar];
 forms.forEach(form => form.enableValidation());
 
-const popupWithImage = new PopupZoomImage(constant.popups.image); //Класс попапа с картинкой
+//Класс попапа с картинкой
+const popupWithImage = new PopupZoomImage(constant.popups.image); 
 const popupToDelete = new PopupToDelete(constant.popups.delete, {
     submit: (id) => {
         getApi.getData(constant.ways.cardsDelete, 'DELETE', id)
@@ -34,7 +38,7 @@ const popupToDelete = new PopupToDelete(constant.popups.delete, {
     }
 })
 
-//Функция на изменения редактирования профиля 
+//Попап редактирования профиля 
 const profilePopup = new PopupWithForm(constant.popups.profile, {
     submit: (data) => {
         profilePopup.setSubmitButtonText('Сохранение...');
@@ -51,19 +55,18 @@ const profilePopup = new PopupWithForm(constant.popups.profile, {
     }, {
     deleteErrors: (input) => {formInfo.hideInputError(input)}
 });
-// Функция сохранения карточки
+
+// Попап сохранения карточки
 const cardAddPopup = new PopupWithForm(constant.popups.card, {
     submit: (data) => {
-        cardAddPopup.setSubmitButtonText('Созданение...');
+        cardAddPopup.setSubmitButtonText('Создание...');
         getApi.createData(constant.ways.cards, data, 'POST')
         .then((data) => {
             const newCard = new Section({
                 items: [data],
                 renderer: (item) => {
                     const cardToCreate = new Card(item, {                   //константа создаваемой карточки с данными 
-                        handleCardClick: (name, link) => {         //Функция на клик по карточке
-                            popupWithImage.open(name, link);
-                        },  
+                        handleCardClick: (name, link) => {popupWithImage.open(name, link)},     //Функция на клик по карточке
                     }, {
                         handleLikeClick: (card, id) => {handleLikeClick(card, id, cardToCreate)}
                         }, {
@@ -85,6 +88,7 @@ const cardAddPopup = new PopupWithForm(constant.popups.card, {
     }, {
     deleteErrors: (input) => {formCard.hideInputError(input)}
 });
+
 //Функция сохранения новой аватарки профиля
 const avatarPopup = new PopupWithForm(constant.popups.avatar, {
     submit: (data) => {
@@ -104,6 +108,23 @@ const avatarPopup = new PopupWithForm(constant.popups.avatar, {
     deleteErrors: (input) => {formAvatar.hideInputError(input)}
 });
 
+//Функция для постановки лайка
+const handleLikeClick = (card, id, cardToCreate) => {
+    if (card.dataset.isLiked === 'true') {
+        getApi.getData(constant.ways.cardsLikes, 'DELETE', id)
+            .then((res) => {
+                cardToCreate.deleteLike(res);
+            })
+            .catch(err => {console.log(err)});
+    } else {
+        getApi.getData(constant.ways.cardsLikes, 'PUT', id)
+            .then((res) => {
+                cardToCreate.addLike(res);
+            })
+            .catch(err => {console.log(err)});
+    }
+}
+
 //Назначаем кнопки
 //Открытие профиля
 constant.buttons.profile.addEventListener('click', () => {
@@ -121,14 +142,11 @@ Promise.all([userApi, cardsApi]) //Функции получения данны�
     .then(([user, cards]) => {
         profileInfo.setUserInfo(user);
         profileInfo.setUserAvatar(user);
-
         const standardCards = new Section({            //Отображает все карточки
             items: cards,
             renderer: (item) => {
                 const cardToCreate = new Card(item, {                   //константа создаваемой карточки с данными 
-                    handleCardClick: (name, link) => {         //Функция на клик по карточке
-                        popupWithImage.open(name, link);
-                    },  
+                    handleCardClick: (name, link) => {popupWithImage.open(name, link)},         //Функция на клик по карточке  
                 }, {
                     handleLikeClick: (card, id) => {handleLikeClick(card, id, cardToCreate)}
                 }, {
@@ -141,20 +159,3 @@ Promise.all([userApi, cardsApi]) //Функции получения данны�
         standardCards.renderItems(); //рендерим все карточки на страницу
     })
     .catch(err => {console.log(err)});
-
-//Функция для постановки лайка
-const handleLikeClick = (card, id, cardToCreate) => {
-    if (card.dataset.isLiked === 'true') {
-        getApi.getData(constant.ways.cardsLikes, 'DELETE', id)
-            .then((res) => {
-                cardToCreate.deleteLike(res);
-            })
-            .catch(err => {console.log(err)});
-    } else {
-        getApi.getData(constant.ways.cardsLikes, 'PUT', id)
-            .then((res) => {
-                cardToCreate.addLike(res);
-            })
-            .catch(err => {console.log(err)});
-    }
-}

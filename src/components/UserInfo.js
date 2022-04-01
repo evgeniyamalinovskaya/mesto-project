@@ -3,8 +3,7 @@ export default class UserInfo {
     constructor({profileTitle, profileJob, profileAvatar}) {
         this._profileTitle = document.querySelector(profileTitle);
         this._profileJob = document.querySelector(profileJob);
-        this._profileAvatar = document.querySelector(profileAvatar);
-        
+        this._profileAvatar = document.querySelector(profileAvatar);        
     }
 
 //Метод возвращает объект с данными пользователя
@@ -30,8 +29,3 @@ export default class UserInfo {
         this._profileAvatar.src = this._avatar;
     };
 }
-
-// Открытие формы, изменение данных профиля
-// profileEditButton.addEventListener('click', () => {
-//     this.editProfileInfo()
-// });

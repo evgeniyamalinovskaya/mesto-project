@@ -88,18 +88,3 @@ export default class Card {
         this._card.dataset.isLiked = 'true';
     }
 }
-
-    //Функция удаления карточки
-    /* function deleteCardRemove(id) {
-        this._api.deleteTaskCard(id)
-        .then(() => {
-            document.querySelector(`.elements__card[data-id="${id}"]`).remove();
-        })
-        .catch(err => {
-            console.log(err);
-        })
-        .finally(() => {
-            deletePopup.dataset.IdToDelete ='';
-        })
-} */
-

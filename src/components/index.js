@@ -1,35 +1,13 @@
 import '../pages/index.css'; // добавьте импорт главного файла стилей
 
-/* import { clearForm, openPopup} from './utils.js'; */ //функции открытия и закрытия popup
-/* import {
-    imageAvatar,
-    avatarButton,
-    avatarChangeProfile,
-    formAvatar,
-    saveAvatarForm,
-    editProfilePopup,
-    profileEditButton,
-    profileTitle,
-    profileJob,
-    formElement,
-    nameInput,
-    jobInput,
-    addCardPopup,
-    showAddCardPopup,
-    formCard,
-    saveCardForm,
-    saveProfileForm,
-    acceptCardDelete,
-    formDelete
-} from './modal.js'; */
-
 import Validator from './Validator.js';
-import Api from './Apis.js';
+import Api from './Api.js';
 import Section from './Section';
 import Card from './Card.js';
 import PopupZoomImage from './PopupZoomImage';
 import PopupWithForm from './PopupWithForm';
-import * as constant from './../utils/constants.js'
+import PopupToDelete from './PopupToDelete';
+import * as constant from './../utils/constants.js';
 import UserInfo from "./UserInfo";
 
 
@@ -44,7 +22,17 @@ const formAvatar = new Validator(constant.validationConfig, constant.formAvatar)
 const forms = [formInfo, formCard, formAvatar];
 forms.forEach(form => form.enableValidation());
 
-const popupWithImage = new PopupZoomImage(constant.popupWithImage); //Класс попапа с картинкой
+const popupWithImage = new PopupZoomImage(constant.popups.image); //Класс попапа с картинкой
+const popupToDelete = new PopupToDelete(constant.popups.delete, {
+    submit: (id) => {
+        getApi.getData(constant.ways.cardsDelete, 'DELETE', id)
+        .then(() => { 
+            document.querySelector(`.elements__card[data-id="${id}"]`).remove();
+            popupToDelete.close()
+        })
+        .catch(err => {console.log(err)});
+    }
+})
 
 //Функция на изменения редактирования профиля 
 const profilePopup = new PopupWithForm(constant.popups.profile, {
@@ -55,9 +43,10 @@ const profilePopup = new PopupWithForm(constant.popups.profile, {
             profileInfo.setUserInfo(data);            
             profilePopup.close();
         })
+        .catch(err => {console.log(err)})
         .finally(() => {
             profilePopup.setSubmitButtonText('Сохранить');
-        })
+        });
     }
     }, {
     deleteErrors: (input) => {formInfo.hideInputError(input)}
@@ -77,6 +66,8 @@ const cardAddPopup = new PopupWithForm(constant.popups.card, {
                         },  
                     }, {
                         handleLikeClick: (card, id) => {handleLikeClick(card, id, cardToCreate)}
+                        }, {
+                        openDeletePopup: (id) => {popupToDelete.open(id)}
                         }, data.owner._id);
                     const cardToReturn = cardToCreate.createCard();         //Готовая карточка места
                     newCard.prependItem(cardToReturn);
@@ -86,9 +77,10 @@ const cardAddPopup = new PopupWithForm(constant.popups.card, {
             cardAddPopup.close();
             formCard.disableButton();
         })
+        .catch(err => {console.log(err)})
         .finally(() => {
             cardAddPopup.setSubmitButtonText('Создать');
-        })
+        });
     }
     }, {
     deleteErrors: (input) => {formCard.hideInputError(input)}
@@ -103,9 +95,10 @@ const avatarPopup = new PopupWithForm(constant.popups.avatar, {
             avatarPopup.close();
             formAvatar.disableButton();
         })
+        .catch(err => {console.log(err)})
         .finally(() => {
             profilePopup.setSubmitButtonText('Сохранить');
-        })
+        });
     }
     }, {
     deleteErrors: (input) => {formAvatar.hideInputError(input)}
@@ -138,16 +131,16 @@ Promise.all([userApi, cardsApi]) //Функции получения данны�
                     },  
                 }, {
                     handleLikeClick: (card, id) => {handleLikeClick(card, id, cardToCreate)}
-                    }, user._id);
+                }, {
+                    openDeletePopup: (id) => {popupToDelete.open(id)}
+                }, user._id);
                 const cardToReturn = cardToCreate.createCard();         //Готовая карточка места
                 standardCards.appendItem(cardToReturn);    // Добавить созданную карточку в контейнер
             }
         }, constant.cardContainer);
         standardCards.renderItems(); //рендерим все карточки на страницу
     })
-    .catch(err => {
-        console.log(err);
-    });
+    .catch(err => {console.log(err)});
 
 //Функция для постановки лайка
 const handleLikeClick = (card, id, cardToCreate) => {
@@ -156,16 +149,12 @@ const handleLikeClick = (card, id, cardToCreate) => {
             .then((res) => {
                 cardToCreate.deleteLike(res);
             })
-            .catch(err => {
-                console.log(err);
-            });
+            .catch(err => {console.log(err)});
     } else {
         getApi.getData(constant.ways.cardsLikes, 'PUT', id)
             .then((res) => {
                 cardToCreate.addLike(res);
             })
-            .catch(err => {
-                console.log(err);
-            });
+            .catch(err => {console.log(err)});
     }
 }

@@ -1,6 +1,6 @@
 //Класс добавляет готовую разметку на страницу
 export default class Card {
-    constructor({ name, link, _id, likes, owner}, {handleCardClick}, {handleLikeClick}, userId) {
+    constructor({ name, link, _id, likes, owner}, {handleCardClick}, {handleLikeClick}, {openDeletePopup}, userId) {
         this._name = name;
         this._link = link;
         this._id = _id;
@@ -8,6 +8,7 @@ export default class Card {
         this._owner = owner;
         this._handleCardClick = handleCardClick;    //открытие попапа с картинкой
         this._handleLikeClick = handleLikeClick;    //нажатие на лайк
+        this._openDeletePopup = openDeletePopup;
         this._userId = userId;
     }
 
@@ -57,8 +58,7 @@ export default class Card {
 
         // Удаление карточки
         this._cardRemove.addEventListener('click', () => {
-            openPopup(deletePopup);
-            deletePopup.dataset.IdToDelete = this._id;
+            this._openDeletePopup(this._id);
         });
 
         // При клике на карточку открыть картинку во всплывающем окне

@@ -12,8 +12,6 @@ export default class PopupWithForm extends Popup{
 
     //Для сбора данных из полей создадим приватный метод
     _getInputValues() {
-         // достаём все элементы полей
-
         // создаём пустой объект
         this._formValues = {};
 

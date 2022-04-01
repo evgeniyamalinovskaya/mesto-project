@@ -2,8 +2,6 @@ export const formInfo = document.querySelector('#form-info');
 export const formCard = document.querySelector('#form-card');
 export const formAvatar = document.querySelector('#form-avatar');
 export const cardContainer ='.elements__list';
-export const deletePopup = document.querySelector('.popup_delete');
-export const popupWithImage = '.popup_image';
 
 //Селекторы кнопок как элемент разметки
 export const buttons = {
@@ -16,7 +14,8 @@ export const popups = {
     profile: '.popup_profile',
     card: '.popup_card',
     avatar: '.popup_avatar',
-    delete: '.popup_delete'
+    delete: '.popup_delete',
+    image: '.popup_image'
 }
 
 //Селекторы разметки на странице

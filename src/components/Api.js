@@ -22,15 +22,6 @@ export default class Api {
 
 //Функция создания Профиля, обновления (редактирования) аватарки и создания карточки (функция принимает объекты)
     createData(way, formInfo, method) {
-        /* const formAvatar = {avatar: image};
-        const formInfo = {
-            name: username,
-            about: about
-        };
-        const formCard = {
-            name: name,
-            link: link
-        }; */
         return fetch(`${this._config.url}${way}`, {
             method: method,                    //для отправки данных на сервер
             headers: this._config.headers,

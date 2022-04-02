@@ -1,7 +1,8 @@
-export default class Validator {
+export default class FormValidator {
     constructor(config, form) {        
         this._config = config;
         this._form = form;
+        this._inputList = Array.from(this._form.querySelectorAll(this._config.inputSelector));
     }
 
 //Функция скрывает элемент ошибки
@@ -30,8 +31,6 @@ export default class Validator {
 
 //Функция проверки валидности полей (если поле не валидно)
     _checkInputValidity (inputElement) {
-        this._errorElement = this._form.querySelector(`#error-${inputElement.id}`);
-
         if (inputElement.validity.valid) {
             this.hideInputError(inputElement); //скрываем элемент ошибки
         } else {
@@ -71,8 +70,6 @@ export default class Validator {
 
 //
     _setEventListeners() {
-        this._inputList = Array.from(this._form.querySelectorAll(this._config.inputSelector));
-
         this._inputList.forEach(inputElement => {
             inputElement.addEventListener('input', () => {
                 this._checkInputValidity(inputElement); //проверка валидации input
@@ -82,8 +79,19 @@ export default class Validator {
         this._toggleButtonState();//проверка кнопки на активность
     }
 
+    _setErrorElement(inputElement) {
+        this._errorElement = this._form.querySelector(`#error-${inputElement.id}`);
+    }
+
+    _setErrorElements() {
+        this._inputList.forEach(inputElement => {
+            this._setErrorElement(inputElement);
+        });
+    }
+
 // Функция выбирает все формы на странице и убираем событие ее отправки
     enableValidation() {
+        this._setErrorElements();
         this._setEventListeners();
     };
 }

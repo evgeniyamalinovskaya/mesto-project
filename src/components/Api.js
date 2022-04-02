@@ -1,3 +1,5 @@
+import * as constant from './../utils/constants.js';
+
 export default class Api {
     constructor(config) {
         this._config = config;
@@ -12,7 +14,7 @@ export default class Api {
     }
 
 //Функция получения данных Профиля и Карточки, добавления лайка, удаления лайка, удаления карточки (возвращает результат выполнения функции fetch)     
-    getData(way, method, id = '') {
+    _getData(way, method, id = '') {
         return fetch(`${this._config.url}${way}${id}`, {  //добавляем аргумент
             method: method,
             headers: this._config.headers
@@ -21,7 +23,7 @@ export default class Api {
     };
 
 //Функция создания Профиля, обновления (редактирования) аватарки и создания карточки (функция принимает объекты)
-    createData(way, formInfo, method) {
+    _createData(way, formInfo, method) {
         return fetch(`${this._config.url}${way}`, {
             method: method,                    //для отправки данных на сервер
             headers: this._config.headers,
@@ -29,4 +31,36 @@ export default class Api {
         })
             .then(res =>this._parseResponse(res));
     };
+
+    getUser() {
+        return this._getData(constant.ways.profile, 'GET');
+    }
+
+    getCards() {
+        return this._getData(constant.ways.cards, 'GET');
+    }
+
+    deleteCard(id) {
+        return this._getData(constant.ways.cardsDelete, 'DELETE', id);
+    }
+
+    changeProfile(data) {
+        return this._createData(constant.ways.profile, data, 'PATCH');
+    }
+
+    createCard(data) {
+        return this._createData(constant.ways.cards, data, 'POST');
+    }
+
+    createAvatar(data) {
+        return this._createData(constant.ways.avatar, data, 'PATCH');
+    }
+
+    deleteLike(id) {
+        return this._getData(constant.ways.cardsLikes, 'DELETE', id);
+    }
+
+    addLike(id) {
+        return this._getData(constant.ways.cardsLikes, 'PUT', id);
+    }
 }

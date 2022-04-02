@@ -1,20 +1,22 @@
 //Отвечает за отрисовку элементов на странице
 export default class Section{
-    constructor({ items, renderer }, selector) {
-        this._renderedItems = items;
+    constructor({ renderer }, selector) {
         this._renderer = renderer;
         
         this._container = document.querySelector(selector);
       }
       //Функция, которая отвечает за создание и отрисовку данных на странице
-      renderItems() {
-        this._renderedItems.forEach(item => {this._renderer(item)})
+      renderItems(items, userId) {
+        items.forEach(item => {this._appendItem(this._renderer(item, userId))});
       }
       //Функция, которая принимает DOM - элемент и добавляет его в контейнер
-      appendItem(element) {
+      _appendItem(element) {
         this._container.append(element);
       }
-      prependItem(element) {
+      _prependItem(element) {
         this._container.prepend(element);
+      }
+      renderItem(item, userId) {
+        this._prependItem(this._renderer(item, userId));
       }
 }

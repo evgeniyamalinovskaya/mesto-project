@@ -1,6 +1,6 @@
 //Класс добавляет готовую разметку на страницу
 export default class Card {
-    constructor({ name, link, _id, likes, owner}, {handleCardClick}, {handleLikeClick}, {openDeletePopup}, userId) {
+    constructor({ name, link, _id, likes, owner}, {handleCardClick}, {handleLikeClick}, {openDeletePopup}, userId, templateSelector) {
         this._name = name;
         this._link = link;
         this._id = _id;
@@ -10,12 +10,13 @@ export default class Card {
         this._handleLikeClick = handleLikeClick;    //нажатие на лайк
         this._openDeletePopup = openDeletePopup;
         this._userId = userId;
+        this._templateSelector = templateSelector;
     }
 
     //Метод извлекает шаблон из разметки из DOM
     _getElement() {
         return document
-            .querySelector('#card-template')
+            .querySelector(this._templateSelector)
             .content
             .querySelector('.elements__card')
             .cloneNode(true);

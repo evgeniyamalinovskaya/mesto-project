@@ -2,6 +2,7 @@ export const formInfo = document.querySelector('#form-info');
 export const formCard = document.querySelector('#form-card');
 export const formAvatar = document.querySelector('#form-avatar');
 export const cardContainer ='.elements__list';
+export const templateSelector = '#card-template';
 
 //Селекторы кнопок как элемент разметки
 export const buttons = {

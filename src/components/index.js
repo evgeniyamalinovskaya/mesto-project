@@ -11,7 +11,7 @@ import * as constant from './../utils/constants.js';
 import UserInfo from "./UserInfo";
 
 
-const getApi = new Api(constant.apiConfig);
+const getApi = new Api(constant);
 const userApi = getApi.getUser();
 const cardsApi = getApi.getCards();
 
@@ -57,7 +57,7 @@ const profilePopup = new PopupWithForm(constant.popups.profile, {
         });
     }
     }, {
-    deleteErrors: (input) => {formInfo.hideInputError(input)}
+    deleteErrors: (input) => {resetValidation(input, formInfo, constant.formInfo)}
 });
 profilePopup.setEventListeners();
 
@@ -69,7 +69,6 @@ const cardAddPopup = new PopupWithForm(constant.popups.card, {
         .then((data) => {
             newCard.renderItem(data, data.owner._id);
             cardAddPopup.close();
-            formCard.disableButton();
         })
         .catch(err => {console.log(err)})
         .finally(() => {
@@ -77,7 +76,7 @@ const cardAddPopup = new PopupWithForm(constant.popups.card, {
         });
     }
     }, {
-    deleteErrors: (input) => {formCard.hideInputError(input)}
+    deleteErrors: (input) => {resetValidation(input, formCard, constant.formCard)}
 });
 cardAddPopup.setEventListeners();
 
@@ -89,7 +88,6 @@ const avatarPopup = new PopupWithForm(constant.popups.avatar, {
         .then((data) => {
             profileInfo.setUserAvatar(data);
             avatarPopup.close();
-            formAvatar.disableButton();
         })
         .catch(err => {console.log(err)})
         .finally(() => {
@@ -97,9 +95,14 @@ const avatarPopup = new PopupWithForm(constant.popups.avatar, {
         });
     }
     }, {
-    deleteErrors: (input) => {formAvatar.hideInputError(input)}
+    deleteErrors: (input) => {resetValidation(input, formAvatar, constant.formAvatar)}
 });
 avatarPopup.setEventListeners();
+
+const resetValidation = ((input, formClass, form) => {
+    const errorElement = form.querySelector(`#error-${input.id}`);
+    formClass.hideInputError(input, errorElement);
+})
 
 //Функция для постановки лайка
 const handleLikeClick = (card, id, cardToCreate) => {
@@ -126,7 +129,7 @@ const newCard = new Section({
             handleLikeClick: (card, id) => {handleLikeClick(card, id, cardToCreate)}
             }, {
             openDeletePopup: (id) => {popupToDelete.open(id)}
-            }, userId);
+            }, userId, constant.templateSelector);
         return cardToCreate.createCard();         //Готовая карточка места
     }
 }, constant.cardContainer);
@@ -139,9 +142,15 @@ constant.buttons.profile.addEventListener('click', () => {
     formInfo.enableButton();
 });
 //Открытие карточек
-constant.buttons.card.addEventListener('click', () => {cardAddPopup.open()});
+constant.buttons.card.addEventListener('click', () => {
+    cardAddPopup.open();
+    formCard.disableButton();
+});
 //Открытие аватарки
-constant.buttons.avatar.addEventListener('click', () => {avatarPopup.open()});
+constant.buttons.avatar.addEventListener('click', () => {
+    avatarPopup.open();
+    formAvatar.disableButton();
+});
 
 // Всё с сервера
 Promise.all([userApi, cardsApi]) //Функции получения данных Профиля и карточки (возвращает результат выполнения функции fetch)

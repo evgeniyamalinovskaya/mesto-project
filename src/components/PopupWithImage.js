@@ -1,6 +1,6 @@
 import Popup from "./Popup";
 
-//Класс zoomImagePopup, при нажатии на картинку, происходит увеличение
+//Класс PopupWithImage, при нажатии на картинку, происходит увеличение
 // (через ключевое слово создали новый класс)
 export default class PopupWithImage extends Popup {
     constructor(popupSelector) {
@@ -16,8 +16,5 @@ export default class PopupWithImage extends Popup {
         this._imageText.textContent = this._name;
         this._zoomedImagePopup.alt = this._name;
         this._zoomedImagePopup.src = this._link;
-    }
-    close = () => {
-        super.close();
     }
 }

@@ -13,14 +13,14 @@ export default class Popup {
 //Функция на overlay
     _handleClickOverlay = (evt) => {
         if (evt.target.classList.contains('popup')) {
-            this.close(this._popup);
+            this.close();
         }
     };
 
 //Функция на esc
     _handleEscClose = (evt) => {
         if (evt.key === 'Escape') {
-            this.close(this._popup);
+            this.close();
         }
     };
 
@@ -32,7 +32,7 @@ export default class Popup {
     
 //Функция закрытия на крестик
     setEventListeners() {
-        this._closeButton.addEventListener('click', this.close);  
+        this._closeButton.addEventListener('click', () => {this.close()});  
     }
 
 // Универсальная функция закрытия всех popup по нажатию на esc, overlay, крестик

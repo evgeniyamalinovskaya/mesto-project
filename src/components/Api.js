@@ -1,8 +1,7 @@
-import * as constant from './../utils/constants.js';
-
 export default class Api {
-    constructor(config) {
-        this._config = config;
+    constructor(data) {
+        this._config = data.apiConfig;
+        this._ways = data.ways;
     }
 
 //Вспомогательная функция ответа
@@ -33,34 +32,34 @@ export default class Api {
     };
 
     getUser() {
-        return this._getData(constant.ways.profile, 'GET');
+        return this._getData(this._ways.profile, 'GET');
     }
 
     getCards() {
-        return this._getData(constant.ways.cards, 'GET');
+        return this._getData(this._ways.cards, 'GET');
     }
 
     deleteCard(id) {
-        return this._getData(constant.ways.cardsDelete, 'DELETE', id);
+        return this._getData(this._ways.cardsDelete, 'DELETE', id);
     }
 
     changeProfile(data) {
-        return this._createData(constant.ways.profile, data, 'PATCH');
+        return this._createData(this._ways.profile, data, 'PATCH');
     }
 
     createCard(data) {
-        return this._createData(constant.ways.cards, data, 'POST');
+        return this._createData(this._ways.cards, data, 'POST');
     }
 
     createAvatar(data) {
-        return this._createData(constant.ways.avatar, data, 'PATCH');
+        return this._createData(this._ways.avatar, data, 'PATCH');
     }
 
     deleteLike(id) {
-        return this._getData(constant.ways.cardsLikes, 'DELETE', id);
+        return this._getData(this._ways.cardsLikes, 'DELETE', id);
     }
 
     addLike(id) {
-        return this._getData(constant.ways.cardsLikes, 'PUT', id);
+        return this._getData(this._ways.cardsLikes, 'PUT', id);
     }
 }

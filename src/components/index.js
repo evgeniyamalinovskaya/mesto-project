@@ -1,81 +1,162 @@
 import '../pages/index.css'; // добавьте импорт главного файла стилей
 
-import { clearForm, openPopup} from './utils.js'; //функции открытия и закрытия popup
-import { enableValidation, validationConfig} from './validate.js';
-import { createCard, cardContainer} from './card.js';
-import {
-    imageAvatar,
-    avatarButton,
-    avatarChangeProfile,
-    formAvatar,
-    saveAvatarForm,
-    editProfilePopup,
-    profileEditButton,
-    profileTitle,
-    profileJob,
-    formElement,
-    nameInput,
-    jobInput,
-    addCardPopup,
-    showAddCardPopup,
-    formCard,
-    saveCardForm,
-    saveProfileForm,
-} from './modal.js';
-import API from './api.js';
+import FormValidator from './FormValidator.js';
+import Api from './Api.js';
+import Section from './Section';
+import Card from './Card.js';
+import PopupWithImage from './PopupWithImage';
+import PopupWithForm from './PopupWithForm';
+import PopupToDelete from './PopupToDelete';
+import * as constant from './../utils/constants.js';
+import UserInfo from "./UserInfo";
 
-// Всё с сервера
-Promise.all([API.getProfile(), API.getCard()]) //Функции получения данных Профиля и карточки (возвращает результат выполнения функции fetch)
-    .then(([user, card]) => { // данные
-        profileTitle.textContent = user.name;
-        profileJob.textContent = user.about;
-        imageAvatar.src = user.avatar;
-        const standardCards = card.map(function (card) {
-            return createCard(card.name, card.link, card._id, card.likes, user._id, card.owner);
+
+const getApi = new Api(constant);
+const userApi = getApi.getUser();
+const cardsApi = getApi.getCards();
+
+//Класс профиля
+const profileInfo = new UserInfo (constant.selectors); 
+
+// Вызываем функцию из валидации
+const formInfo = new FormValidator(constant.validationConfig, constant.formInfo);
+const formCard = new FormValidator(constant.validationConfig, constant.formCard);
+const formAvatar = new FormValidator(constant.validationConfig, constant.formAvatar);
+const forms = [formInfo, formCard, formAvatar];
+forms.forEach(form => form.enableValidation());
+
+//Класс попапа с картинкой
+const popupWithImage = new PopupWithImage(constant.popups.image);
+popupWithImage.setEventListeners();
+
+//Попап удаления карточки
+const popupToDelete = new PopupToDelete(constant.popups.delete, {
+    submit: (id) => {
+        getApi.deleteCard(id)
+        .then(() => { 
+            document.querySelector(`.elements__card[data-id="${id}"]`).remove();
+            popupToDelete.close()
+        })
+        .catch(err => {console.log(err)});
+    }
+})
+popupToDelete.setEventListeners();
+
+//Попап редактирования профиля 
+const profilePopup = new PopupWithForm(constant.popups.profile, {
+    submit: (data) => {
+        profilePopup.setSubmitButtonText('Сохранение...');
+        getApi.changeProfile(data)
+        .then((data) => {
+            profileInfo.setUserInfo(data);            
+            profilePopup.close();
+        })
+        .catch(err => {console.log(err)})
+        .finally(() => {
+            profilePopup.setSubmitButtonText('Сохранить');
         });
-        cardContainer.prepend(...standardCards);
-    })
-    .catch(err => {
-        console.log(err);
-    });
+    }
+    }, {
+    deleteErrors: (input) => {resetValidation(input, formInfo, constant.formInfo)}
+});
+profilePopup.setEventListeners();
 
-//Открытие формы, изменения аватарки профиля
-avatarButton.addEventListener('click', avatarProfile);
+// Попап сохранения карточки
+const cardAddPopup = new PopupWithForm(constant.popups.card, {
+    submit: (data) => {
+        cardAddPopup.setSubmitButtonText('Создание...');
+        getApi.createCard(data)
+        .then((data) => {
+            newCard.renderItem(data, data.owner._id);
+            cardAddPopup.close();
+        })
+        .catch(err => {console.log(err)})
+        .finally(() => {
+            cardAddPopup.setSubmitButtonText('Создать');
+        });
+    }
+    }, {
+    deleteErrors: (input) => {resetValidation(input, formCard, constant.formCard)}
+});
+cardAddPopup.setEventListeners();
 
-formAvatar.addEventListener('submit', saveAvatarForm);
+//Функция сохранения новой аватарки профиля
+const avatarPopup = new PopupWithForm(constant.popups.avatar, {
+    submit: (data) => {
+        avatarPopup.setSubmitButtonText('Сохранение...');
+        getApi.createAvatar(data)
+        .then((data) => {
+            profileInfo.setUserAvatar(data);
+            avatarPopup.close();
+        })
+        .catch(err => {console.log(err)})
+        .finally(() => {
+            avatarPopup.setSubmitButtonText('Сохранить');
+        });
+    }
+    }, {
+    deleteErrors: (input) => {resetValidation(input, formAvatar, constant.formAvatar)}
+});
+avatarPopup.setEventListeners();
 
-function avatarProfile() {
-    // Очищаем форму
-    clearForm(avatarChangeProfile);
-    // Открываем popup
-    openPopup(avatarChangeProfile);
+const resetValidation = ((input, formClass, form) => {
+    const errorElement = form.querySelector(`#error-${input.id}`);
+    formClass.hideInputError(input, errorElement);
+})
+
+//Функция для постановки лайка
+const handleLikeClick = (card, id, cardToCreate) => {
+    if (card.dataset.isLiked === 'true') {
+        getApi.deleteLike(id)
+            .then((res) => {
+                cardToCreate.deleteLike(res);
+            })
+            .catch(err => {console.log(err)});
+    } else {
+        getApi.addLike(id)
+            .then((res) => {
+                cardToCreate.addLike(res);
+            })
+            .catch(err => {console.log(err)});
+    }
 }
 
-// Открытие формы, изменение данных профиля
-profileEditButton.addEventListener('click', editProfile);
+const newCard = new Section({
+    renderer: (item, userId) => {
+        const cardToCreate = new Card(item, {                   //константа создаваемой карточки с данными 
+            handleCardClick: (name, link) => {popupWithImage.open(name, link)},     //Функция на клик по карточке
+        }, {
+            handleLikeClick: (card, id) => {handleLikeClick(card, id, cardToCreate)}
+            }, {
+            openDeletePopup: (id) => {popupToDelete.open(id)}
+            }, userId, constant.templateSelector);
+        return cardToCreate.createCard();         //Готовая карточка места
+    }
+}, constant.cardContainer);
 
-formElement.addEventListener('submit', saveProfileForm);
-
-function editProfile() {
-    // Открываем popup
-    openPopup(editProfilePopup);
-
-    // Подставляем значения из профиля
-    nameInput.value = profileTitle.textContent;
-    jobInput.value = profileJob.textContent;
-}
-
-// Добавление карточки
-showAddCardPopup.addEventListener('click', function () {
-    // Очищаем форму
-    clearForm(addCardPopup);
-    // Открываем popup
-    openPopup(addCardPopup);
+//Назначаем кнопки
+//Открытие профиля
+constant.buttons.profile.addEventListener('click', () => {
+    profilePopup.open();
+    profilePopup.setInputValues(profileInfo.getUserInfo());
+    formInfo.enableButton();
+});
+//Открытие карточек
+constant.buttons.card.addEventListener('click', () => {
+    cardAddPopup.open();
+    formCard.disableButton();
+});
+//Открытие аватарки
+constant.buttons.avatar.addEventListener('click', () => {
+    avatarPopup.open();
+    formAvatar.disableButton();
 });
 
-formCard.addEventListener('submit', saveCardForm);
-
-enableValidation(validationConfig) // Вызываем функцию из валидации
-
-
-
+// Всё с сервера
+Promise.all([userApi, cardsApi]) //Функции получения данных Профиля и карточки (возвращает результат выполнения функции fetch)
+    .then(([user, cards]) => {
+        profileInfo.setUserInfo(user);
+        profileInfo.setUserAvatar(user);
+        newCard.renderItems(cards, user._id);
+    })
+    .catch(err => {console.log(err)});

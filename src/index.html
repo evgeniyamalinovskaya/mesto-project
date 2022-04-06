@@ -57,12 +57,12 @@
             <button class="popup__close-button" type="button" aria-label="Выйти"></button>
             <div class="popup__form">
                 <h2 class="popup__title">Редактировать профиль</h2>
-                <form name="form-info" class="form" novalidate>
+                <form name="form-info" id="form-info" class="form" novalidate>
                     <fieldset class="popup__item-container">
                         <label class="popup__input-container">
-                            <input class="popup__item" type="text" name="username" id="username"
+                            <input class="popup__item" type="text" name="name" id="name"
                                    placeholder="Жак-Ив Кусто" required="required" minlength="2" maxlength="40">
-                            <span id="error-username" class="popup__error"></span>
+                            <span id="error-name" class="popup__error"></span>
                         </label>
                         <label class="popup__input-container">
                             <input class="popup__item" type="text" name="about" id="about"
@@ -81,7 +81,7 @@
             <button class="popup__close-button" type="button" aria-label="Выйти"></button>
             <div class="popup__form">
                 <h2 class="popup__title">Новое место</h2>
-                <form name="form-card" class="form" novalidate>
+                <form name="form-card" id="form-card" class="form" novalidate>
                     <fieldset class="popup__item-container">
                         <label class="popup__input-container">
                             <input class="popup__item" type="text" name="name" id="name"
@@ -116,15 +116,27 @@
             <button class="popup__close-button" type="button" aria-label="Выйти"></button>
             <div class="popup__form">
                 <h2 class="popup__title">Обновить аватар</h2>
-                <form name="form-avatar" class="form" novalidate>
+                <form name="form-avatar" id="form-avatar" class="form" novalidate>
                     <fieldset class="popup__item-container">
                     <label class="popup__input-container">
-                        <input class="popup__item" type="url" name="link" id="link-avatar"
+                        <input class="popup__item" type="url" name="avatar" id="avatar"
                                placeholder="Ссылка на картинку" required="required" value="">
-                        <span id="error-link-avatar" class="popup__error"></span>
+                        <span id="error-avatar" class="popup__error"></span>
                     </label>
                     </fieldset>
                     <button class="popup__submit" type="submit" id="avatar-submit">Сохранить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup popup_delete">
+        <div class="popup__container">
+            <button class="popup__close-button" type="button" aria-label="Выйти"></button>
+            <div class="popup__form">
+                <h2 class="popup__title">Вы уверены?</h2>
+                <form name="form-delete" class="form" novalidate>
+                    <button class="popup__submit" type="submit" id="delete-submit">Да</button>
                 </form>
             </div>
         </div>
